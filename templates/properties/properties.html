@@ -1,6 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
-
+{% load static %}
 <html lang="en">
 
 <head>
@@ -10,10 +9,13 @@
 
 </head>
 <body>
+    <div class="property-listing">
     {% for property in properties %}
-
-    <div class="property-name">{{property.name}}</div>
+        <div class="property-name">
+            <h3>{{property.name}}</h3>
+        </div>
     {% endfor %}
+    </div>
 
 
 

@@ -5,6 +5,7 @@ properties = [
     {
         "id": 1,
         "name": "Ari's house",
+        "image":
     },
     {
         "id": 2,
