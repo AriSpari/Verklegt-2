@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "property.apps.PropertyConfig",
     "User.apps.UserConfig",
+    "offerdata.apps.OfferdataConfig",
 ]
 
 MIDDLEWARE = [

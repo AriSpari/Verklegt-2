@@ -1,24 +1,24 @@
 from django.db import models
-
+from User.models import User
 # Create your models here.
 
 class Property(models.Model):
-    propertyId = models.IntegerField()
-    PropertyAddress = models.CharField(max_length=255)
+    property_id = models.IntegerField()
+    property_address = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
-    postalCode = models.IntegerField()
-    propertyPrice = models.DecimalField(max_digits=10, decimal_places=2)
-    propertyType = models.CharField(max_length=100)
+    postalcode = models.IntegerField()
+    property_price = models.DecimalField(max_digits=10, decimal_places=2)
+    property_type = models.CharField(max_length=100)
     description = models.TextField()
-    roomCount = models.IntegerField()
-    bedroomCount = models.IntegerField()
-    bathroomCount = models.IntegerField()
-    isSold = models.BooleanField()
-    listingDate = models.DateField()
-    squareMeters = models.IntegerField()
-    propertyValuation = models.DecimalField(max_digits=100, decimal_places=2)
-    sellerId = models.IntegerField() #get from user
-    image = models.ImageField()
+    roomcount = models.IntegerField()
+    bedroomcount = models.IntegerField()
+    bathroomcount = models.IntegerField()
+    is_sold = models.BooleanField()
+    listing_date = models.DateField()
+    squaremeters = models.IntegerField()
+    property_valuation = models.DecimalField(max_digits=100, decimal_places=2)
+    seller_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    image_cover = models.ImageField()
 
 class PropertyImage(models.Model):
     image = models.ImageField()

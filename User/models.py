@@ -3,11 +3,13 @@ from django.db import models
 # Create your models here.
 
 class User(models.Model):
-    userId = models.IntegerField()
-    userName = models.CharField(max_length = 100)
-    passwordHash = models.CharField(max_length = 100)
-    Name = models.CharField(max_length = 100)
-    profileImage = models.ImageField()
+    user_id = models.IntegerField()  # Changed userId to user_id
+    user_name = models.CharField(max_length=100)  # Changed userName to user_name
+    password_hash = models.CharField(max_length=100)  # Changed passwordHash to password_hash
+    name = models.CharField(max_length=100)  # Changed Name to name
+    profile_image = models.ImageField(upload_to='')  # Changed profileImage to profile_image
+
+
 
 class UserImage(models.Model):
     image = models.ImageField()
