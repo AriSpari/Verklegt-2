@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "property.apps.PropertyConfig",
     "User.apps.UserConfig",
+    "django.contrib.humanize"
 ]
 
 MIDDLEWARE = [
