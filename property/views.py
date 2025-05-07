@@ -69,8 +69,16 @@ def index(request):
         "properties": properties
     })
 
+# def get_property_by_id(request, id):
+#     property = [x for x in properties if x['id'] == id]
+#     return render(request, "properties/property_detail.html", {
+#         "property": property
+#     })
+
 def get_property_by_id(request, id):
-    property = [x for x in properties if x.id == id]
+    property = next((x for x in properties if x['id'] == id), None)
+    if not property:
+        return HttpResponse("Property not found", status=404)
     return render(request, "properties/property_detail.html", {
         "property": property
     })

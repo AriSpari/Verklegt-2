@@ -1,46 +1,33 @@
-<!DOCTYPE html>
-{% load static %}
+
 {% load humanize %}
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Main page?</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-
-</head>
-<body>
-    <div class="card_container">
-    {% for property in properties %}
-    <div class="property-card" style="width: 18rem;">
-      <img src="{{ property.image }}" class="card-img-top" alt="Property image">
-      <div class="card-body">
-        <h5 class="card-title">{{ property.name }}</h5>
-        <p class="card-address">{{ property.address }}, {{ property.postal_code }} {{ property.city }}</p>
-        <p class="card-description">{{ property.description }}</p>
-        <ul class="card-details">
-          <li><strong>Type:</strong> {{ property.type }}</li>
-          <li><strong>Rooms:</strong> {{ property.room_count }}</li>
-          <li><strong>Bedrooms:</strong> {{ property.bedroom_count }}</li>
-          <li><strong>Bathrooms:</strong> {{ property.bathroom_count }}</li>
-          <li><strong>Size:</strong> {{ property.square_meters }} m²</li>
-          <li><strong>Listed:</strong> {{ property.listing_date }}</li>
-          <li><strong>Status:</strong> {{ property.is_sold|yesno:"Sold,Available" }}</li>
-        </ul>
-        <p class="card-price"><strong>Price:</strong> {{ property.listing_price|intcomma }} kr</p>
-        <p class="card-valuation">Valuation: {{ property.property_valuation|intcomma }} kr</p>
-        <p class="card-insurance">Fire insurance: {{ property.fire_insurance_value|intcomma }} kr</p>
-        <a href="#" class="btn btn-primary">View property</a>
-      </div>
-    </div>
-
-    {% endfor %}
-    </div>
+{% block content %}
 
 
+<div class="card_container">
+{% for property in properties %}
+<div class="property-card" style="width: 18rem;">
+  <img src="{{ property.image }}" class="card-img-top" alt="Property image">
+  <div class="card-body">
+    <h5 class="card-title">{{ property.name }}</h5>
+    <p class="card-address">{{ property.address }}, {{ property.postal_code }} {{ property.city }}</p>
+    <p class="card-description">{{ property.description }}</p>
+    <ul class="card-details">
+      <li><strong>Type:</strong> {{ property.type }}</li>
+      <li><strong>Rooms:</strong> {{ property.room_count }}</li>
+      <li><strong>Bedrooms:</strong> {{ property.bedroom_count }}</li>
+      <li><strong>Bathrooms:</strong> {{ property.bathroom_count }}</li>
+      <li><strong>Size:</strong> {{ property.square_meters }} m²</li>
+      <li><strong>Listed:</strong> {{ property.listing_date }}</li>
+      <li><strong>Status:</strong> {{ property.is_sold|yesno:"Sold,Available" }}</li>
+    </ul>
+    <p class="card-price"><strong>Price:</strong> {{ property.listing_price|intcomma }} kr</p>
+    <p class="card-valuation">Valuation: {{ property.property_valuation|intcomma }} kr</p>
+    <p class="card-insurance">Fire insurance: {{ property.fire_insurance_value|intcomma }} kr</p>
+    <a href="{% url 'property-by-id' id=property.id %}" >View property</a>
+  </div>
+</div>
 
+{% endfor %}
+</div>
 
-</body>
-</html>
-
-
+{% endblock %}
