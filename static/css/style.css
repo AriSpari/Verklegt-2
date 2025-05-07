@@ -14,17 +14,29 @@ body {
 /* Enhanced Card */
 .property-card {
   border: none;
-  border-radius: 12px;
+  border-radius: 60px !important;
   overflow: hidden;
   background-color: #fff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
+  transition: all 0.05s ease;
+
 }
 
 .property-card:hover {
-  transform: translateY(-5px);
+  /*transform: translateY(-5px);*/
+  border-radius: 10px !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform:scale(1.05);
 }
+
+/*.card-disabled {*/
+/*  !*opacity: 0.5;*!*/
+/*  pointer-events: none; !* optional: disables clicks *!*/
+/*  filter: grayscale(100%) brightness(85%);*/
+
+/*}*/
+
+
 
 /* Image */
 .property-card img {
@@ -38,17 +50,18 @@ body {
   padding: 20px;
 }
 
-.card-title {
+.card-address {
   font-size: 1.3rem;
   font-weight: 600;
   color: #343a40;
   margin-bottom: 10px;
 }
 
-.card-address {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-bottom: 12px;
+.card-city-and-post-code{
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 10px;
 }
 
 .card-description {
@@ -98,4 +111,8 @@ body {
 
 .btn-primary:hover {
   background-color: #0b5ed7;
+}
+
+.sold-status{
+/*  TODO, make "AVAILABLE" green og "SOLD" red   */
 }

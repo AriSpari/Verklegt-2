@@ -1,14 +1,8 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
 {% load static %}
 {% load humanize %}
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ property.name }}</title>
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</head>
 
+{% block content %}
 <body class="bg-light">
 
   <div class="container py-5">
@@ -48,5 +42,4 @@
     </div>
   </div>
 
-</body>
-</html>
+{% endblock %}
