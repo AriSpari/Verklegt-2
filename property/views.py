@@ -5,16 +5,62 @@ properties = [
     {
         "id": 1,
         "name": "Ari's house",
+        "image": "https://www.bhg.com/thmb/H9VV9JNnKl-H1faFXnPlQfNprYw=/1799x0/filters:no_upscale():strip_icc()/white-modern-house-curved-patio-archway-c0a4a3b3-aa51b24d14d0464ea15d36e05aa85ac9.jpg",
+        "address": "123 Blueberry Lane",
+        "city": "Reykjavík",
+        "postal_code": "101",
+        "listing_price": 75000000,
+        "description": "A bright modern home in a quiet neighborhood with a large patio and open floor plan.",
+        "type": "Single-family",
+        "room_count": 6,
+        "bedroom_count": 3,
+        "bathroom_count": 2,
+        "is_sold": False,
+        "listing_date": "2025-04-10",
+        "square_meters": 145,
+        "property_valuation": 72000000,
+        "fire_insurance_value": 68000000
     },
     {
         "id": 2,
         "name": "Muggur's house",
+        "image": "https://hips.hearstapps.com/hmg-prod/images/west-virginia-gray-cottage-64dd6bb056057.jpg?crop=0.943xw:0.817xh;0.0224xw,0.0932xh&resize=980:*",
+        "address": "45 Seaside View",
+        "city": "Akureyri",
+        "postal_code": "600",
+        "listing_price": 58000000,
+        "description": "Charming cottage with mountain views, perfect for peaceful living.",
+        "type": "Cottage",
+        "room_count": 5,
+        "bedroom_count": 2,
+        "bathroom_count": 1,
+        "is_sold": True,
+        "listing_date": "2025-03-22",
+        "square_meters": 110,
+        "property_valuation": 56000000,
+        "fire_insurance_value": 53000000
     },
     {
         "id": 3,
         "name": "Nói's house",
+        "image": "https://www.livehome3d.com/assets/img/articles/design-house/how-to-design-a-house.jpg",
+        "address": "9 Lavafield Road",
+        "city": "Hafnarfjörður",
+        "postal_code": "220",
+        "listing_price": 91000000,
+        "description": "Spacious home with modern amenities, a large garden, and close to schools.",
+        "type": "Villa",
+        "room_count": 8,
+        "bedroom_count": 4,
+        "bathroom_count": 3,
+        "is_sold": False,
+        "listing_date": "2025-02-28",
+        "square_meters": 180,
+        "property_valuation": 88000000,
+        "fire_insurance_value": 85000000
     }
 ]
+
 
 
 def index(request):
