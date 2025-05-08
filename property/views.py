@@ -88,5 +88,10 @@ def get_property_by_name(request, name):
 
 def user_profile(request):
     return render(request, "user/profile.html", {
-        "properties": properties
+        "properties": properties #placeholder context
+    })
+
+def submit_purchase_offer(request,id):
+    return render(request, "submit_purchase_offer.html",{
+        "properties": properties #placeholder context
     })

@@ -120,3 +120,8 @@ body {
 .sold-status.sold{
   color: red;
 }
+
+.back-button{
+  position: relative;
+  left: 50px !important;
+}
