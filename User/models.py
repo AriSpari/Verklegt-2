@@ -1,16 +1,51 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-# Create your models here.
+# Custom User Manager to handle user creation
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password=None, **extra_fields):
+        """
+        Create and return a regular user with an email and password.
+        """
+        if not username:
+            raise ValueError('The Username field must be set')
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)  # hash the password before saving
+        user.save(using=self._db)
+        return user
 
-class User(models.Model):
-    user_id = models.IntegerField()  # Changed userId to user_id
-    username = models.CharField(max_length=100)  # Changed userName to user_name
-    password = models.CharField(max_length=100)  # Changed passwordHash to password_hash
-    name = models.CharField(max_length=100)  # Changed Name to name
-    profile_image = models.ImageField(upload_to='')  # Changed profileImage to profile_image
+    def create_superuser(self, username, password=None, **extra_fields):
+        """
+        Create and return a superuser with a username and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
 
+        return self.create_user(username, password, **extra_fields)
 
+# Custom User model
+class User(AbstractBaseUser):
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
 
-class UserImage(models.Model):
-    image = models.ImageField()
-    User = models.ForeignKey(User, on_delete=models.CASCADE)
+    def has_module_perms(self, app_label):
+        return self.is_superuser
+
+    user_id = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=100, unique=True)  # Make username unique
+    name = models.CharField(max_length=100)
+    profile_image = models.ImageField(upload_to='')
+
+    # These fields are required by Django's User model
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    # Required for creating a superuser
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['name']  # Add other fields that you want to make required
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.username

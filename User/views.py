@@ -7,8 +7,7 @@ def register(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            login(request, user)  # log them in after registering
+            user = form.save()
             return redirect('login')  # or redirect to dashboard
     else:
         form = UserRegistrationForm()
