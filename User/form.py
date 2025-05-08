@@ -1,12 +1,23 @@
 from django import forms
 from .models import User
 
+
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(widget=forms.PasswordInput, required=True)
+
     class Meta:
         model = User
-        fields = ['username', 'password']  #
+        fields = ['username', 'password', 'name']  # Add 'name' if you need it in the form
         widgets = {
-            'username': forms.TextInput(),
-            'password': forms.PasswordInput()
-        }# add your fields
+            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+            'password': forms.PasswordInput(attrs={'placeholder': 'Password'})
+        }
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # Hash the password
+        user.set_password(self.cleaned_data['password'])
+
+        if commit:
+            user.save()
+        return user
