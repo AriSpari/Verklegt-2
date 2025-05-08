@@ -77,11 +77,16 @@ def index(request):
 
 def get_property_by_id(request, id):
     property = next((x for x in properties if x['id'] == id), None)
-    if not property:
-        return HttpResponse("Property not found", status=404)
+    # if not property:
+    #     return HttpResponse("Property not found", status=404)
     return render(request, "properties/property_detail.html", {
         "property": property
     })
 
 def get_property_by_name(request, name):
     return HttpResponse(f"Response from {request.path} with name {name}")
+
+def user_profile(request):
+    return render(request, "user/profile.html", {
+        "properties": properties
+    })

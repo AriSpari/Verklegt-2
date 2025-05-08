@@ -24,7 +24,12 @@
                   <li><strong>Type:</strong> {{ property.type }}</li>
                   <li><strong>Size:</strong> {{ property.square_meters }} m²</li>
                   <li><strong>Listed:</strong> {{ property.listing_date }}</li>
-                  <li class="sold-status"><strong>Status:</strong> {{ property.is_sold|yesno:"Sold,Available" }}</li>
+                  <li class="sold-status">
+                      <strong>Status:</strong>
+                      <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
+                        {{ property.is_sold|yesno:"Sold,Available" }}
+                      </span>
+                  </li>
                 </ul>
                 <p class="card-price">Price: {{ property.listing_price|intcomma }} kr</p>
 {#                <a href="{% url 'property-by-id' id=property.id %}" class="btn btn-primary mt-2">View property</a>#}

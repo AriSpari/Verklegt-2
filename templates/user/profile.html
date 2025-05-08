@@ -1,8 +1,34 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
 {% block content %}
-    <h1>Profile</h1>
 
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg">
+        <div class="card-body text-center">
+          <img src="https://www.sha.is/static/files/Myndir_nefndir_2025-2026/untitled-instagram-post-4-.png" alt="Profile Picture" class="rounded-circle mb-3" width="120" height="120">
+          <h3 class="card-title">{{ user.username }}</h3>
+          <p class="text-muted">{{ user.email }}</p>
 
+          <hr>
+
+          <div class="row text-start mt-4">
+            <div class="col-md-6">
+              <h5>Member Since</h5>
+              <p>{{ user.date_joined|date:"F d, Y" }}</p>
+            </div>
+            <div class="col-md-6">
+              <h5>Last Login</h5>
+              <p>{{ user.last_login|date:"F d, Y H:i" }}</p>
+            </div>
+          </div>
+
+          <a href="#" class="btn btn-outline-primary mt-3">Edit Profile</a>
+          <a href="{% url 'logout' %}" class="btn btn-outline-danger mt-3 ms-2">Log Out</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

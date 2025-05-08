@@ -113,6 +113,10 @@ body {
   background-color: #0b5ed7;
 }
 
-.sold-status{
-/*  TODO, make "AVAILABLE" green og "SOLD" red   */
+.sold-status.available{
+  color: green !important;
+}
+
+.sold-status.sold{
+  color: red;
 }
