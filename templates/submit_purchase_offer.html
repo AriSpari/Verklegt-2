@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container py-5">
+  <h2 class="mb-4 text-center">Submit Purchase Offer</h2>
+
+  <div class="card p-4 shadow">
+    <form>
+      <div class="mb-3">
+        <label for="offerPrice" class="form-label">Offer Price (kr)</label>
+        <input type="number" class="form-control" id="offerPrice" placeholder="Enter your offer">
+      </div>
+
+      <div class="mb-3">
+        <label for="expirationDate" class="form-label">Offer Expiration Date</label>
+        <input type="date" class="form-control" id="expirationDate">
+      </div>
+
+      <button type="button" class="btn btn-primary w-100">Submit Offer</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
