@@ -164,29 +164,29 @@ input[type=range]::-webkit-slider-runnable-track {
   /*background-color: black;*/
 }
 
-
-#banner-image{
-  background-image:
-          linear-gradient(to bottom, #95c2fd, rgba(0, 0, 0, 0)),
-          url("https://www.nar.realtor/_next/image?url=https%3A%2F%2Fcms.nar.realtor%2F%2Fsites%2Fdefault%2Ffiles%2Fgettyimages-1192403701.jpg%3Fitok%3DyKvTqoah&w=3840&q=75&dpl=dpl_CEYnEVZJzq6TYGawUWChibU8Jciw");
-  background-size: cover;
-  background-position: center 70%;
-  background-repeat: no-repeat;
-  padding: 150px 0;
-  margin: 20px 0;
+#banner-image {
+    position: relative;
+    background-image:
+        linear-gradient(to bottom, #95c2fd, rgba(0, 0, 0, 0)),
+        url("https://www.nar.realtor/_next/image?url=https%3A%2F%2Fcms.nar.realtor%2F%2Fsites%2Fdefault%2Ffiles%2Fgettyimages-1192403701.jpg%3Fitok%3DyKvTqoah&w=3840&q=75&dpl=dpl_CEYnEVZJzq6TYGawUWChibU8Jciw");
+    background-size: cover;
+    background-position: center 70%;
+    background-repeat: no-repeat;
+    padding: 150px 0;
+    margin: 20px 0;
 }
 
-#logo-overlay{
-  position: absolute;
-  left: 50%;
-  top: 15%;
-  transform: translateX(-50%);
-  max-width: 180px;
-  height: auto;
-  z-index: 2;
-  opacity: 0.95;
-  border-radius: 20px;
+#logo-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 180px;
+    height: auto;
+    opacity: 0.95;
+    border-radius: 20px;
 }
+
 
 .castle-apartments-logo{
   border-radius: 10px;
@@ -232,4 +232,45 @@ input[type=range]::-webkit-slider-runnable-track {
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid #ccc;
+}
+
+
+.navbar-search-form {
+    /*max-width: 100em;*/
+    width: 30%;
+  padding: 0 1rem;
+}
+
+.navbar-search-input {
+    padding: 0.6em 1.2em;
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    background-color: #f8f9fa;
+    transition: box-shadow 0.2s ease-in-out, border-color 0.2s;
+}
+
+.navbar-search-input:focus {
+    outline: none;
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+@media (max-width: 900px) {
+    /*.navbar-search-form {*/
+    /*    display: none;*/
+    /*}*/
+    #navbar-title{
+      display: none;
+    }
+}
+
+#profile-icon{
+  position: absolute;
+  right: 3%;
+  /*z-index: 1051;*/
+}
+
+#profile-icon-dropdown{
+  position: absolute;
+  top: 100%;
 }
