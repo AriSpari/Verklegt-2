@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 urlpatterns = [
@@ -9,5 +11,5 @@ urlpatterns = [
     path('user-profile/', views.user_profile, name='user-profile'),
     path('property/<int:id>/submit-purchase-offer/', views.submit_purchase_offer, name='submit-purchase-offer'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
