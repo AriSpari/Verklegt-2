@@ -34,6 +34,12 @@ def user_profile(request):
         "properties": properties
     })
 
+def user_profile(request):
+    properties = Property.objects.all()  # query all properties from database
+    return render(request, "user/profile.html", {
+        "properties": properties
+    })
+
 def submit_purchase_offer(request, id):
     property = Property.objects.get(id=id)  # Get the specific property by its ID
     return render(request, "submit_purchase_offer.html", {

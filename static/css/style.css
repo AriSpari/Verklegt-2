@@ -226,3 +226,10 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 
+.profile-avatar {
+  width: 2.5em;
+  height: 2.5em;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
