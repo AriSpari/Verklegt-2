@@ -82,7 +82,7 @@
           <div class="card property-card {% if property.is_sold %}card-disabled{% endif %} h-100 position-relative">
             <img src="{{ property.image_cover }}" class="card-img-top" alt="Property image">
             <div class="card-body">
-              <h5 class="card-address">{{ property.property_address }}, {{ property.postalcode }} {{ property.city }}</h5>
+              <h5 class="card-address">{{ property.property_address }}</h5>
               <h3 class="card-city-and-post-code">{{ property.postalcode }} {{ property.city }}</h3>
               <ul class="card-details">
                 <li><strong>Type:</strong> {{ property.property_type }}</li>
