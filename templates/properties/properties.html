@@ -6,6 +6,44 @@
 
 {% block content %}
 
+    <div class="container">
+        <form class="row g-3 mb-4" method="get" action=".">
+          <div class="col-md-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
+          </div>
+            <div class="col-md-3">
+
+                  <label for="minPrice" class="form-text">Min Price</label>
+                  <input type="range" class="form-range" id="minPrice" name="min_price" min="0" max="250000000" step="500000" value="{{ request.GET.min_price|default:0 }}" oninput="updatePriceDisplay(event)">
+
+                  <label for="maxPrice" class="form-text">Max Price</label>
+                  <input type="range" class="form-range" id="maxPrice" name="max_price" min="0" max="250000000" step="500000" value="{{ request.GET.max_price|default:250000000 }}" oninput="updatePriceDisplay(event)">
+
+                  <small class="text-muted">
+                    From <span id="minPriceDisplay">0</span> kr to <span id="maxPriceDisplay">200,000,000</span> kr
+                  </small>
+            </div>
+
+
+
+
+          <div class="col-md-3">
+              <label for="type" class="form-label">Property Type</label>
+              <select class="form-select" id="type" name="type">
+                <option value="">All Types</option>
+                <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
+                <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
+                <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
+              </select>
+          </div>
+
+          <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+          </div>
+        </form>
+    </div>
+
 <div class="card_container">
 {% for property in properties %}
 <div class="container">
@@ -46,5 +84,37 @@
 
 {% endfor %}
 </div>
+
+{#    smá javascript til að höndla dual slider   #}
+<script>
+function updatePriceDisplay(event) {
+  const minInput = document.getElementById('minPrice');
+  const maxInput = document.getElementById('maxPrice');
+  const minDisplay = document.getElementById('minPriceDisplay');
+  const maxDisplay = document.getElementById('maxPriceDisplay');
+
+  let minVal = parseInt(minInput.value);
+  let maxVal = parseInt(maxInput.value);
+
+  // Figure out which slider was moved
+  if (event?.target?.id === 'minPrice') {
+    if (minVal > maxVal) {
+      maxVal = minVal;
+      maxInput.value = minVal;
+    }
+  } else if (event?.target?.id === 'maxPrice') {
+    if (maxVal < minVal) {
+      minVal = maxVal;
+      minInput.value = maxVal;
+    }
+  }
+
+  minDisplay.textContent = minVal.toLocaleString();
+  maxDisplay.textContent = maxVal.toLocaleString();
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', updatePriceDisplay);
+</script>
 
 {% endblock %}
