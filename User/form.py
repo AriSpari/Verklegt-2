@@ -7,7 +7,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'name']  # Add 'name' if you need it in the form
+        fields = ['username', 'password', 'name']
         widgets = {
             'username': forms.TextInput(attrs={'placeholder': 'Username'}),
             'password': forms.PasswordInput(attrs={'placeholder': 'Password'})
