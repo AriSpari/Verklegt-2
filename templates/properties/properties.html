@@ -5,72 +5,74 @@
 {% block content %}
 
 <!-- FILTER FORM -->
-<div class="container filter-section position-relative">
-    <form class="row g-3 mb-4" method="get" action=".">
-  <!-- City -->
-  <div class="col-md-3">
-    <label for="city" class="form-label">City</label>
-    <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
-  </div>
+    <div id="banner-image">
+        <img id="logo-overlay" src="{% static 'images/CastleApartments logo.png' %}" class="logo-overlay castle-apartments-logo" alt="Castle Apartments Logo">
+    </div>
+        <div class="container filter-section position-relative">
+            <form class="row g-3 mb-4" method="get" action=".">
+          <!-- City -->
+          <div class="col-md-3">
+            <label for="city" class="form-label">City</label>
+            <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
+          </div>
 
-  <!-- Property Type -->
-  <div class="col-md-3">
-    <label for="type" class="form-label">Property Type</label>
-    <select class="form-select" id="type" name="type">
-      <option value="">All Types</option>
-      <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
-      <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
-      <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
-    </select>
-  </div>
+          <!-- Property Type -->
+          <div class="col-md-3">
+            <label for="type" class="form-label">Property Type</label>
+            <select class="form-select" id="type" name="type">
+              <option value="">All Types</option>
+              <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
+              <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
+              <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
+            </select>
+          </div>
 
-  <!-- Status -->
-  <div class="col-md-3">
-    <label for="status" class="form-label">Status</label>
-    <select class="form-select" id="status" name="status">
-      <option value="">All</option>
-      <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
-      <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
-    </select>
-  </div>
+          <!-- Status -->
+          <div class="col-md-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select" id="status" name="status">
+              <option value="">All</option>
+              <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
+              <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
+            </select>
+          </div>
 
-  <!-- Listing Date Range -->
-<div class="col-md-3">
-  <label for="listing_start" class="form-label">Listing Date Range</label>
-  <input type="date" class="form-control mb-2" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
-  <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
-</div>
-
-
-  <!-- Price Range -->
-  <div class="col-md-3">
-    <label class="form-text">Price Range</label>
-    <input type="range" class="form-range" id="minPrice" name="min_price" min="0" max="250000000" step="500000" value="{{ request.GET.min_price|default:0 }}" oninput="updatePriceDisplay(event)">
-    <input type="range" class="form-range" id="maxPrice" name="max_price" min="0" max="250000000" step="500000" value="{{ request.GET.max_price|default:250000000 }}" oninput="updatePriceDisplay(event)">
-    <small id="min-to-max-price">
-      From <span id="minPriceDisplay">0</span> kr to <span id="maxPriceDisplay">200,000,000</span> kr
-    </small>
-  </div>
-
-  <!-- Size Range -->
-<div class="col-md-3">
-  <label class="form-label">Size Range (m²)</label>
-  <input type="range" class="form-range" id="minSize" name="min_size" min="0" max="500" step="5" value="{{ request.GET.min_size|default:0 }}" oninput="updateSizeDisplay(event)">
-  <input type="range" class="form-range" id="maxSize" name="max_size" min="0" max="500" step="5" value="{{ request.GET.max_size|default:500 }}" oninput="updateSizeDisplay(event)">
-  <small class="text-muted">
-    From <span id="minSizeDisplay">0</span> m² to <span id="maxSizeDisplay">500</span> m²
-  </small>
-</div>
+          <!-- Listing Date Range -->
+        <div class="col-md-3">
+          <label for="listing_start" class="form-label">Listing Date Range</label>
+          <input type="date" class="form-control mb-2" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
+          <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
+        </div>
 
 
-  <!-- Submit -->
-  <div class="col-md-3 d-flex align-items-end">
-    <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-  </div>
-</form>
+          <!-- Price Range -->
+          <div class="col-md-3">
+            <label class="form-text">Price Range</label>
+            <input type="range" class="form-range" id="minPrice" name="min_price" min="0" max="250000000" step="500000" value="{{ request.GET.min_price|default:0 }}" oninput="updatePriceDisplay(event)">
+            <input type="range" class="form-range" id="maxPrice" name="max_price" min="0" max="250000000" step="500000" value="{{ request.GET.max_price|default:250000000 }}" oninput="updatePriceDisplay(event)">
+            <small id="min-to-max-price">
+              From <span id="minPriceDisplay">0</span> kr to <span id="maxPriceDisplay">200,000,000</span> kr
+            </small>
+          </div>
 
-</div>
+          <!-- Size Range -->
+        <div class="col-md-3">
+          <label class="form-label">Size Range (m²)</label>
+          <input type="range" class="form-range" id="minSize" name="min_size" min="0" max="500" step="5" value="{{ request.GET.min_size|default:0 }}" oninput="updateSizeDisplay(event)">
+          <input type="range" class="form-range" id="maxSize" name="max_size" min="0" max="500" step="5" value="{{ request.GET.max_size|default:500 }}" oninput="updateSizeDisplay(event)">
+          <small class="text-muted">
+            From <span id="minSizeDisplay">0</span> m² to <span id="maxSizeDisplay">500</span> m²
+          </small>
+        </div>
 
+
+          <!-- Submit -->
+          <div class="col-md-3 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+          </div>
+        </form>
+
+        </div>
 <!-- PROPERTY CARDS -->
 <div class="container">
   <div class="row">
@@ -89,7 +91,9 @@
                 <li class="sold-status">
                   <strong>Status:</strong>
                   <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
-                    {{ property.is_sold|yesno:"Available,Sold" }}
+                    {{ property.is_sold|yesno:"Sold,Available" }}
+
+
                   </span>
                 </li>
               </ul>
