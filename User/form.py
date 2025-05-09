@@ -3,14 +3,15 @@ from .models import User
 
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, required=True)
+    #password = forms.CharField(widget=forms.PasswordInput, required=True)
 
     class Meta:
         model = User
         fields = ['username', 'password', 'name']
         widgets = {
             'username': forms.TextInput(attrs={'placeholder': 'Username'}),
-            'password': forms.PasswordInput(attrs={'placeholder': 'Password'})
+            'password': forms.PasswordInput(attrs={'placeholder': 'Password'}),
+            'name': forms.TextInput(attrs={'placeholder': 'Name'})
         }
 
     def save(self, commit=True):
