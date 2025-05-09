@@ -132,3 +132,33 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 3px;
 }
+
+.filter-section {
+  background-image: url("https://www.nar.realtor/_next/image?url=https%3A%2F%2Fcms.nar.realtor%2F%2Fsites%2Fdefault%2Ffiles%2Fgettyimages-1192403701.jpg%3Fitok%3DyKvTqoah&w=3840&q=75&dpl=dpl_CEYnEVZJzq6TYGawUWChibU8Jciw");
+  background-size: cover;
+  background-position: center 70%;
+  background-repeat: no-repeat;
+  padding: 20px;
+  border-radius: 12px;
+  color: white; /* Optional, makes form text more visible */
+}
+
+.filter-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* dark overlay */
+  z-index: 1;
+  border-radius: 12px;
+}
+
+.filter-section > * {
+  position: relative;
+  background-position: center 80%;
+  z-index: 2;
+}
+
+#min-to-max-price{
+  color: #0dcaf0;
+  /*background-color: black;*/
+}
