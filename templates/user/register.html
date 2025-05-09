@@ -4,15 +4,44 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 500px;">
         <h1 class="text-center mb-4">Register now!</h1>
+        <div class="container, text-center" id="register-form">
         <form method="post" action="{% url 'register' %}">
+
             {% csrf_token %}
-            <div class="form-group w-100">
-                {{ form.as_p }}
+
+            {# display all form non-field and field errors at the top #}
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="mb-3">
+                {{ form.username.as_widget }}
             </div>
+
+            <div class="mb-3">
+                {{ form.password.as_widget }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.name.as_widget }}
+            </div>
+
             <div class="d-grid mt-3">
                 <input type="submit" class="btn btn-primary w-100" value="Register"/>
             </div>
         </form>
+        </div>
     </div>
 </div>
 {% endblock %}

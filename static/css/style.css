@@ -183,3 +183,7 @@ input[type=range]::-webkit-slider-runnable-track {
   font-weight: bold;
   color: white !important;
 }
+
+#register-form{
+  position: relative;
+}
