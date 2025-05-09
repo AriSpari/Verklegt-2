@@ -39,3 +39,4 @@ def submit_purchase_offer(request, id):
     return render(request, "submit_purchase_offer.html", {
         "property": property  # Pass the specific property to the template
     })
+
