@@ -4,49 +4,73 @@
 
 {% block content %}
 
-
-    <div class="container">
-        <form class="row g-3 mb-4" method="get" action=".">
-          <div class="col-md-3">
-            <label for="city" class="form-label">City</label>
-            <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
-          </div>
-            <div class="col-md-3">
-
-                  <label for="minPrice" class="form-text">Min Price</label>
-                  <input type="range" class="form-range" id="minPrice" name="min_price" min="0" max="250000000" step="500000" value="{{ request.GET.min_price|default:0 }}" oninput="updatePriceDisplay(event)">
-
-                  <label for="maxPrice" class="form-text">Max Price</label>
-                  <input type="range" class="form-range" id="maxPrice" name="max_price" min="0" max="250000000" step="500000" value="{{ request.GET.max_price|default:250000000 }}" oninput="updatePriceDisplay(event)">
-
-                  <small class="text-muted">
-                    From <span id="minPriceDisplay">0</span> kr to <span id="maxPriceDisplay">200,000,000</span> kr
-                  </small>
-            </div>
-
-
-
-
-          <div class="col-md-3">
-              <label for="type" class="form-label">Property Type</label>
-              <select class="form-select" id="type" name="type">
-                <option value="">All Types</option>
-                <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
-                <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
-                <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
-              </select>
-          </div>
-
-          <div class="col-md-3 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
-          </div>
-        </form>
-    </div>
-
-{% endfor %}
+<!-- FILTER FORM -->
+<div class="container">
+    <form class="row g-3 mb-4" method="get" action=".">
+      <div class="col-md-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
+      </div>
+      <div class="col-md-3">
+        <label for="minPrice" class="form-text">Min Price</label>
+        <input type="range" class="form-range" id="minPrice" name="min_price" min="0" max="250000000" step="500000" value="{{ request.GET.min_price|default:0 }}" oninput="updatePriceDisplay(event)">
+        <label for="maxPrice" class="form-text">Max Price</label>
+        <input type="range" class="form-range" id="maxPrice" name="max_price" min="0" max="250000000" step="500000" value="{{ request.GET.max_price|default:250000000 }}" oninput="updatePriceDisplay(event)">
+        <small class="text-muted">
+          From <span id="minPriceDisplay">0</span> kr to <span id="maxPriceDisplay">200,000,000</span> kr
+        </small>
+      </div>
+      <div class="col-md-3">
+        <label for="type" class="form-label">Property Type</label>
+        <select class="form-select" id="type" name="type">
+          <option value="">All Types</option>
+          <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
+          <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
+          <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
+        </select>
+      </div>
+      <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+      </div>
+    </form>
 </div>
 
-{#    smá javascript til að höndla dual slider   #}
+<!-- PROPERTY CARDS -->
+<div class="container">
+  <div class="row">
+    {% for property in properties %}
+      <div class="col-md-4 mb-4">
+        <a href="{% url 'property-by-id' id=property.property_id %}" class="text-decoration-none text-reset">
+          <div class="card property-card {% if property.is_sold %}card-disabled{% endif %} h-100 position-relative">
+            <img src="{{ property.image_cover }}" class="card-img-top" alt="Property image">
+            <div class="card-body">
+              <h5 class="card-address">{{ property.property_address }}, {{ property.postalcode }} {{ property.city }}</h5>
+              <h3 class="card-city-and-post-code">{{ property.postalcode }} {{ property.city }}</h3>
+              <ul class="card-details">
+                <li><strong>Type:</strong> {{ property.property_type }}</li>
+                <li><strong>Size:</strong> {{ property.squaremeters }} m²</li>
+                <li><strong>Listed:</strong> {{ property.listing_date }}</li>
+                <li class="sold-status">
+                  <strong>Status:</strong>
+                  <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
+                    {{ property.is_sold|yesno:"Available,Sold" }}
+                  </span>
+                </li>
+              </ul>
+              <p class="card-price">Price: {{ property.property_price|intcomma }} kr</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% empty %}
+      <div class="col-12">
+        <p>No properties match your filters.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- JavaScript for dual range sliders -->
 <script>
 function updatePriceDisplay(event) {
   const minInput = document.getElementById('minPrice');
@@ -57,7 +81,6 @@ function updatePriceDisplay(event) {
   let minVal = parseInt(minInput.value);
   let maxVal = parseInt(maxInput.value);
 
-  // Figure out which slider was moved
   if (event?.target?.id === 'minPrice') {
     if (minVal > maxVal) {
       maxVal = minVal;
@@ -74,9 +97,7 @@ function updatePriceDisplay(event) {
   maxDisplay.textContent = maxVal.toLocaleString();
 }
 
-// Initialize on load
 document.addEventListener('DOMContentLoaded', updatePriceDisplay);
 </script>
-
 
 {% endblock %}
