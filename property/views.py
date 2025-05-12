@@ -5,18 +5,11 @@ from offers.forms import OfferForm
 
 
 def index(request):
-    #TODO: Retrieve data from database
+    # TODO: Retrieve data from database
     db_properties = Property.objects.all()
     return render(request, "properties/properties.html", {
         "properties": db_properties
     })
-
-
-# def get_property_by_id(request, id):
-#     property = [x for x in properties if x['id'] == id]
-#     return render(request, "properties/property_detail.html", {
-#         "property": property
-#     })
 
 def get_property_by_id(request, id):
     property = get_object_or_404(Property, pk=id)
