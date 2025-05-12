@@ -137,7 +137,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_REDIRECT_URL = '/user-profile/'
+LOGIN_REDIRECT_URL = '/User/profile/'
 LOGIN_URL = '/user/login'
 
 AUTH_USER_MODEL = 'User.User'
@@ -147,3 +147,6 @@ PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
