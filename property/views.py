@@ -4,7 +4,7 @@ from property.models import Property
 
 
 def index(request):
-    #TODO: Retrieve data from database
+    # TODO: Retrieve data from database
     db_properties = Property.objects.all()
     return render(request, "properties/properties.html", {
         "properties": db_properties
