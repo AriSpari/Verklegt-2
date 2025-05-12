@@ -34,15 +34,22 @@ def user_profile(request):
         "properties": properties
     })
 
-def user_profile(request):
-    properties = Property.objects.all()  # query all properties from database
-    return render(request, "user/profile.html", {
-        "properties": properties
-    })
 
 def submit_purchase_offer(request, id):
     property = Property.objects.get(id=id)  # Get the specific property by its ID
     return render(request, "submit_purchase_offer.html", {
         "property": property  # Pass the specific property to the template
     })
+
+def confirm_offer(request, id):
+    property_obj = get_object_or_404(Property, pk=id)
+    offer_price = request.GET.get('offer_price')
+    expire_date = request.GET.get('expire_date')
+
+    return render(request, "properties/confirm_offer.html", {
+        "property": property_obj,
+        "offer_price": offer_price,
+        "expire_date": expire_date
+    })
+
 

@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
 
 {% block content %}
-  <div class="container" id="main-container">
-    <div class="col-md-6">
-      <div class="card-body">
-        <h3 class="card-title">{{ property.property_address }}</h3>
-        <p class="text-muted">{{ property.property_address }}, {{ property.postalcode }} {{ property.city }}</p>
+  <div class="container mt-5 mb-5">
+    <div class="flex-wrap" id="confirm-offer-wrapper">
 
+      <!-- Left: Property Info -->
+      <div class="bg-white p-4 rounded shadow" id="property-details">
+        <h3>{{ property.property_address }}</h3>
+        <p class="text-muted">{{ property.property_address }}, {{ property.postalcode }} {{ property.city }}</p>
+        <img src="{{ property.image_cover }}" alt="property image" class="confirm-offer-image">
         <ul class="list-group list-group-flush mb-3">
           <li class="list-group-item"><strong>Type:</strong> {{ property.property_type }}</li>
           <li class="list-group-item"><strong>Rooms:</strong> {{ property.roomcount }}</li>
@@ -17,22 +21,24 @@
           <li class="list-group-item">
             <strong>Status:</strong>
             <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
-              {{ property.is_sold|yesno:"Available,Sold" }}
+              {{ property.is_sold|yesno:"Sold,Available" }}
             </span>
           </li>
         </ul>
-
         <p class="h5 text-primary">Price: {{ property.property_price|intcomma }} kr</p>
         <p class="text-muted">Valuation: {{ property.property_valuation|intcomma }} kr</p>
         <p class="text-muted">Fire insurance: {{ property.fire_insurance_value|intcomma }} kr</p>
-
-        <p class="mt-3">{{ property.description }}</p>
+        <p>{{ property.description }}</p>
       </div>
-    </div>
 
-    <!-- Purchase offer summary placeholder -->
-    <div class="mt-4">
-      {# summary of purchase offer #}
+      <!-- Right: Offer Summary -->
+      <div class="bg-white p-4 rounded shadow " id="offer-summary">
+        <h4>Your Offer Summary</h4>
+        <p><strong>Offer Price:</strong> {{ offer_price }} kr</p>
+        <p><strong>Expires On:</strong> {{ expire_date }}</p>
+          <div class="btn btn-primary">Confirm purchase order</div>
+      </div>
+
     </div>
   </div>
 {% endblock %}
