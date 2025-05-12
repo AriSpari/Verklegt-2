@@ -10,7 +10,6 @@
     <div class="row g-0">
       <!-- Images column -->
       <div class="col-md-6">
-        <!-- Loop through all PropertyImage objects -->
         <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             {% for img in property.propertyimage_set.all %}
@@ -69,18 +68,22 @@
           <!-- Collapsible Form -->
           <div class="collapse mt-3" id="purchaseOfferForm">
             <div class="card card-body">
-              <form>
+              <form method="post" action="{% url 'offers:make-offer' property.property_id %}">
+                {% csrf_token %}
                 <div class="mb-3">
-                  <label for="offerPrice" class="form-label">Offer Price (kr)</label>
-                  <input type="number" class="form-control" id="offerPrice" placeholder="Enter your offer">
+                  <label for="id_offer_price" class="form-label">Offer Price (kr)</label>
+                  <input type="number" class="form-control" id="id_offer_price"
+                         name="offer_price" step="0.01" min="0"
+                         placeholder="Enter your offer" required>
                 </div>
 
                 <div class="mb-3">
-                  <label for="expirationDate" class="form-label">Expiration Date</label>
-                  <input type="date" class="form-control" id="expirationDate">
+                  <label for="id_expire_date" class="form-label">Expiration Date</label>
+                  <input type="date" class="form-control" id="id_expire_date"
+                         name="expire_date" required>
                 </div>
 
-                <button type="button" class="btn btn-success w-100">Submit Offer</button>
+                <button type="submit" class="btn btn-success w-100">Submit Offer</button>
               </form>
             </div>
           </div>

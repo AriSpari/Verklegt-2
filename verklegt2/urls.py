@@ -17,11 +17,16 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from verklegt2 import settings
 
 urlpatterns = [
-    path('User/',   include('User.urls')),       # ← check User/ URLs first
+    path('User/',   include('User.urls')),
     path('',        include('property.urls')),
+    path('offers/', include('offers.urls')),
     path('seller/', include('seller.urls')),
     path('buyer/',  include('buyer.urls')),
     path("admin/",  admin.site.urls),
+
 ]
+#urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
