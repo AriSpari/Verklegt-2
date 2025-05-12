@@ -274,3 +274,41 @@ input[type=range]::-webkit-slider-runnable-track {
   position: absolute;
   top: 100%;
 }
+/*  Nú byrjar css fyrir confirm offer interface  */
+
+.confirm-container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.confirm-left,
+.confirm-right {
+  flex: 1 1 45%;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#confirm-offer-wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+#property-details, #offer-summary {
+  flex: 1 1 45%;
+  min-width: 300px;
+}
+
+.confirm-offer-image{
+    max-width: 30em !important;
+    max-height: 20em !important;
+}
+
+#offer-summary{
+    height: fit-content !important;
+}
+
+/*  Css fyrir confirm user interface búið  */

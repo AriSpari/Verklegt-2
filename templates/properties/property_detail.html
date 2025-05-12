@@ -49,7 +49,7 @@
             <li class="list-group-item">
               <strong>Status:</strong>
               <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
-                {{ property.is_sold|yesno:"Available,Sold" }}
+                {{ property.is_sold|yesno:"Sold,Available" }}
               </span>
             </li>
           </ul>
@@ -68,7 +68,7 @@
           <!-- Collapsible Form -->
           <div class="collapse mt-3" id="purchaseOfferForm">
             <div class="card card-body">
-              <form method="post" action="{% url 'offers:make-offer' property.property_id %}">
+              <form method="get" action="{% url 'confirm-offer' property.property_id %}">
                 {% csrf_token %}
                 <div class="mb-3">
                   <label for="id_offer_price" class="form-label">Offer Price (kr)</label>
@@ -85,6 +85,11 @@
 
                 <button type="submit" class="btn btn-success w-100">Submit Offer</button>
               </form>
+{#                <form method="get" action="{% url 'confirm-offer' property.property_id %}">#}
+{#                  <input type="number" name="offer_price" required>#}
+{#                  <input type="date" name="expire_date" required>#}
+{#                  <button type="submit" class="btn btn-success">Submit</button>#}
+{#                </form>#}
             </div>
           </div>
 
