@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "property.apps.PropertyConfig",
     "User.apps.UserConfig",
-    "offerdata.apps.OfferdataConfig",
+    "offers.apps.OfferdataConfig",
     "django.contrib.humanize"
 
 ]

@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from property.models import Property
+from offers.forms import OfferForm
 
 
 def index(request):
@@ -19,8 +20,12 @@ def index(request):
 
 def get_property_by_id(request, id):
     property = get_object_or_404(Property, pk=id)
-    # if not property:
-    #     return HttpResponse("Property not found", status=404)
+    offer_form = OfferForm()
+
+    context = {
+        'property': property,
+        'offer_form': offer_form,
+    }
     return render(request, "properties/property_detail.html", {
         "property": property
     })

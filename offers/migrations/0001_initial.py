@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                     "status",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="offerdata.status",
+                        to="offers.status",
                     ),
                 ),
             ],
