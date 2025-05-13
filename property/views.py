@@ -2,6 +2,8 @@ from lib2to3.fixes.fix_input import context
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+
+from offers.models import Offers
 from property.models import Property
 from offers.forms import OfferForm
 from property.filters import PropertyFilter
@@ -29,17 +31,15 @@ def property_list(request):
     })
 
 def get_property_by_id(request, id):
-    property = get_object_or_404(Property, pk=id)
-    offer_form = OfferForm()
+    property_obj = get_object_or_404(Property, pk=id)
+    form = OfferForm()
+    offers = Offers.objects.filter(property_id=property_obj)
 
-    context = {
-        'property': property,
-        'offer_form': offer_form,
-    }
-    return render(request, "properties/property_detail.html", {
-        "property": property
+    return render(request, 'properties/property_detail.html', {
+        'property': property_obj,
+        'form': form,
+        'offers': offers,
     })
-
 def get_property_by_name(request, name):
     return HttpResponse(f"Response from {request.path} with name {name}")
 
@@ -66,5 +66,9 @@ def confirm_offer(request, id):
         "offer_price": offer_price,
         "expire_date": expire_date
     })
-
+def property_detail(request, pk):
+    property_obj = get_object_or_404(Property, pk=pk)
+    return render(request, 'properties/property_details.html', {
+        'property': property_obj,
+    })
 
