@@ -30,4 +30,10 @@ def make_offer(request, property_id):
     })
 
 
+@login_required
+def my_offers(request):
+    offers = Offers.objects.filter(user=request.user)
+    return render(request, 'offers/my_offers.html', {
+        'offers': offers
+    })
 

@@ -22,11 +22,13 @@ from verklegt2 import settings
 
 urlpatterns = [
     path('User/',   include('User.urls')),
-    path('',        include('property.urls')),
     path('offers/', include('offers.urls')),
     path('seller/', include('seller.urls')),
     path('buyer/',  include('buyer.urls')),
     path("admin/",  admin.site.urls),
+    path('',        include('property.urls')),
 
 ]
+
+
 #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

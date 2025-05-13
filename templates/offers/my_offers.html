@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Purchase Offers</h2>
+
+    {% if offers %}
+        <div class="row">
+            {% for offer in offers %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ offer.property.property_address }}</h5>
+                            <p class="card-text">
+                                <strong>City:</strong> {{ offer.property.city }}<br>
+                                <strong>Price Offered:</strong> {{ offer.price|intcomma }} kr<br>
+                                <strong>Expires:</strong> {{ offer.expiration_date }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">You haven't made any offers yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
