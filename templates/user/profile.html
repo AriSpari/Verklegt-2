@@ -1,35 +1,60 @@
 {% extends "base.html" %}
 {% block content %}
-
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
-      <div class="card shadow-lg">
-        <div class="card-body text-center">
-          <img src="{{ user.profile_image }}" alt="Profile Picture" class="rounded-circle mb-3" width="120" height="120">
+
+      <div class="card shadow-lg mb-4 text-center">
+        <div class="card-body">
+            {% if user.profile_image %}
+                <img
+                    src="{{ user.profile_image.url }}"
+                    alt="Profile Picture"
+                    class="rounded-circle mb-3"
+                    width="120" height="120">
+            {% else %}
+                <img
+                    src="https://i.pinimg.com/236x/63/b4/42/63b44296cd692778cb00f836414e0ca7.jpg"
+                    alt="Default Profile Picture"
+                    class="rounded-circle mb-3"
+                    width="120" height="120">
+            {% endif %}
           <h3 class="card-title">{{ user.name }}</h3>
-          <p class="text-muted">{{ user.email }}</p>
-
-          <hr>
-
-          <div class="row text-start mt-4">
-            <div class="col-md-6">
-              <h5>Member Since</h5>
-              <p>{{ user.date_joined|date:"F d, Y" }}</p>
-            </div>
-            <div class="col-md-6">
-              <h5>Last Login</h5>
-              <p>{{ user.last_login|date:"F d, Y H:i" }}</p>
-            </div>
-          </div>
-
-          <a href="#" class="btn btn-outline-primary mt-3">Edit Profile</a>
-          <a href="{% url 'property-index' %}" class="btn btn-outline-danger mt-3 ms-2">Log Out</a>
-
+          <p class="text-muted">{{ user.username }}</p>
         </div>
       </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Update Profile Picture</h5>
+        </div>
+        <div class="card-body">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="mb-3">
+              {{ form.profile_image.label_tag }}
+              {{ form.profile_image }}
+              {% for error in form.profile_image.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+          <form method="post" action="{% url 'logout' %}" class="d-inline" id="logout-form">
+          {% csrf_token %}
+          <a href="#" class="btn btn-outline-danger"
+             onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
+            Log Out
+          </a>
+            </form>
+      </div>
+
     </div>
   </div>
 </div>
-
 {% endblock %}

@@ -7,12 +7,12 @@ from offers.forms import OfferForm
 from property.filters import PropertyFilter
 
 def index(request):
-    #TODO: Retrieve data from database
     property_filter = PropertyFilter(request.GET, queryset=Property.objects.all())
     context = {
         'form' : property_filter.form,
         'property' : property_filter.qs,
     }
+
     db_properties = Property.objects.all()
     return render(request, "properties/properties.html", context)
 
@@ -27,14 +27,6 @@ def property_list(request):
     return render(request, 'properties/properties.html', {
         'properties': f.qs
     })
-
-
-
-# def get_property_by_id(request, id):
-#     property = [x for x in properties if x['id'] == id]
-#     return render(request, "properties/property_detail.html", {
-#         "property": property
-#     })
 
 def get_property_by_id(request, id):
     property = get_object_or_404(Property, pk=id)
@@ -57,15 +49,22 @@ def user_profile(request):
         "properties": properties
     })
 
-def user_profile(request):
-    properties = Property.objects.all()  # query all properties from database
-    return render(request, "user/profile.html", {
-        "properties": properties
-    })
 
 def submit_purchase_offer(request, id):
     property = Property.objects.get(id=id)  # Get the specific property by its ID
     return render(request, "submit_purchase_offer.html", {
         "property": property  # Pass the specific property to the template
     })
+
+def confirm_offer(request, id):
+    property_obj = get_object_or_404(Property, pk=id)
+    offer_price = request.GET.get('offer_price')
+    expire_date = request.GET.get('expire_date')
+
+    return render(request, "properties/confirm_offer.html", {
+        "property": property_obj,
+        "offer_price": offer_price,
+        "expire_date": expire_date
+    })
+
 

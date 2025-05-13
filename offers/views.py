@@ -28,3 +28,6 @@ def make_offer(request, property_id):
         'property': property,
         'form': form,
     })
+
+
+
