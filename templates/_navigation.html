@@ -10,8 +10,8 @@
     </a>
 
     <!-- Centered Search Form (absolute) -->
-    <form class="position-absolute start-50 translate-middle-x navbar-search-form" role="search">
-      <input class="form-control navbar-search-input" type="search" placeholder="Search" aria-label="Search">
+    <form class="position-absolute start-50 translate-middle-x navbar-search-form" role="search" method="get" action="{% url 'property-list' %}">
+      <input class="form-control navbar-search-input" type="search" name="search" placeholder="Search properties..." aria-label="Search" value="{{ request.GET.search|default:'' }}">
     </form>
 
     <!-- Left-side links (Register/Login) -->
