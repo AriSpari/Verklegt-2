@@ -14,5 +14,5 @@ class OfferForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Set default expire date to 7 days from now
-        self.fields['expire_date'].initial = timezone.now().date() + timedelta(days=7)
+        # Set default expire date to 7 days from now, with time included
+        self.fields['expire_date'].initial = timezone.now() + timedelta(days=7)

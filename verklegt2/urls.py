@@ -20,6 +20,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from verklegt2 import settings
 
+
 urlpatterns = [
     path('User/',   include('User.urls')),
     path('offers/', include('offers.urls')),
@@ -27,7 +28,6 @@ urlpatterns = [
     path('buyer/',  include('buyer.urls')),
     path("admin/",  admin.site.urls),
     path('',        include('property.urls')),
-
 ]
 
 

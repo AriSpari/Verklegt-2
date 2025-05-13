@@ -32,11 +32,17 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle p-0" href="#" id="profileDropdown" role="button"
            data-bs-toggle="dropdown" aria-expanded="false">
-          <img src="{{ user.profile_image }}" alt="Profile" class="profile-avatar">
+            {% if user.profile_image %}
+          <img src="{{ user.profile_image.url }}" alt="Profile" class="profile-avatar">
+            {% else %}
+            <img
+        src="https://i.pinimg.com/236x/63/b4/42/63b44296cd692778cb00f836414e0ca7.jpg" alt="Profile" class="profile-avatar">
+            {% endif %}
         </a>
         <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown" id="profile-icon-dropdown">
           <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
           <li><a class="dropdown-item" href="{% url 'my-offers' %}">My Offers</a></li>
+
           <li><a class="dropdown-item" href="#">My Listings</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><hr class="dropdown-divider"></li>
