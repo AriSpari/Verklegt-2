@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "User.apps.UserConfig",
     "offers.apps.OfferdataConfig",
     "django.contrib.humanize",
-    'django_filters'
+    'django_filters',
 
 ]
 
