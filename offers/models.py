@@ -3,7 +3,7 @@ from django.db import models
 from User.models import User
 from property.models import Property
 from django.utils import timezone
-
+from User.models import User
 
 class Status(models.Model):
     status_name = models.CharField(max_length=100)
@@ -22,6 +22,7 @@ class Offers(models.Model):
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)  # Assuming 1 is "Pending"
 
     class Meta:
+        db_table = 'offers_offers'
         ordering = ['-create_date']
 
     def __str__(self):
