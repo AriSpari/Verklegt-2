@@ -45,7 +45,6 @@ class LoginForm(AuthenticationForm):
 
 
 
-
 class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = User

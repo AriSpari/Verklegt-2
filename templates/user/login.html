@@ -7,7 +7,7 @@
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
 
-            {# Display form errors at the top (like registration) #}
+            {# Display form errors at the top #}
             {% if form.errors %}
                 <div class="alert alert-danger">
                     <ul class="mb-0">
@@ -23,13 +23,13 @@
                 </div>
             {% endif %}
 
-            {# Centered input fields #}
-            <div class="text-center mb-3">
-                {{ form.username.as_widget }}
+            {# Render fields with placeholders explicitly #}
+            <div class="mb-3">
+                <input type="text" name="{{ form.username.name }}"  class="form-control" placeholder="Username">
             </div>
 
-            <div class="text-center mb-3">
-                {{ form.password }}
+            <div class="mb-3">
+                <input type="password" name="{{ form.password.name }}"  class="form-control" placeholder="Password">
             </div>
 
             <div class="d-grid mt-3">
