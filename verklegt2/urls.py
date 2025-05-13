@@ -23,7 +23,8 @@ from verklegt2 import settings
 
 urlpatterns = [
     path('User/',   include('User.urls')),
-    path('offers/', include('offers.urls')),
+
+    path('offers/', include('offers.urls', namespace='offers')),
     path('seller/', include('seller.urls')),
     path('buyer/',  include('buyer.urls')),
     path("admin/",  admin.site.urls),
