@@ -1,16 +1,31 @@
+from lib2to3.fixes.fix_input import context
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from property.models import Property
 from offers.forms import OfferForm
-
+from property.filters import PropertyFilter
 
 def index(request):
-    # TODO: Retrieve data from database
-
+    property_filter = PropertyFilter(request.GET, queryset=Property.objects.all())
+    context = {
+        'form' : property_filter.form,
+        'property' : property_filter.qs,
+    }
 
     db_properties = Property.objects.all()
-    return render(request, "properties/properties.html", {
-        "properties": db_properties
+    return render(request, "properties/properties.html", context)
+
+
+def property_list(request):
+    f = PropertyFilter(request.GET, queryset=Property.objects.all())
+
+    city_val = request.GET.get("city", "")
+    print("Filtering city with:", city_val)
+    print("Matches:", Property.objects.filter(city__icontains=city_val).count())
+
+    return render(request, 'properties/properties.html', {
+        'properties': f.qs
     })
 
 def get_property_by_id(request, id):

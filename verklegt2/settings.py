@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "property.apps.PropertyConfig",
     "User.apps.UserConfig",
     "offers.apps.OfferdataConfig",
-    "django.contrib.humanize"
+    "django.contrib.humanize",
+    'django_filters'
 
 ]
 
