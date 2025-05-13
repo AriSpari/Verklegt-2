@@ -38,9 +38,17 @@
 
         <!-- Listing Date Range -->
         <div class="col-md-3">
-            <label for="listing_start" class="form-label">Listing Date Range</label>
-            <input type="date" class="form-control mb-2" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
-            <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
+            <label class="form-label">Listing Date Range</label>
+            
+            <div class="input-group mb-2">
+                <span class="input-group-text text-muted" style="min-width: 45px;">From</span>
+                <input type="date" class="form-control" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
+            </div>
+            
+            <div class="input-group">
+                <span class="input-group-text text-muted" style="min-width: 62px; justify-content: center;">To</span>
+                <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
+            </div>
         </div>
 
         <!-- Price Range (Dual Slider) -->
