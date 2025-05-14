@@ -53,7 +53,7 @@
             <li class="list-group-item">
               <strong>Status:</strong>
               <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
-                {{ property.is_sold|yesno:"Available,Sold" }}
+                {{ property.is_sold|yesno:"Sold,Available" }}
               </span>
             </li>
           </ul>
