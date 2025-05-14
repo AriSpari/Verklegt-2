@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Back button -->
+    <div class="mb-4">
+        <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            ← Back
+        </a>
+    </div>
+
+    <!-- Seller Profile and Properties -->
+    <div class="row">
+        <!-- Seller Profile Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <!-- Seller Avatar - Default to initial circle -->
+                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
+                         style="width: 150px; height: 150px; font-size: 60px;">
+                        {{ seller.username|slice:":1"|upper }}
+                    </div>
+                    
+                    <!-- Seller Info -->
+                    <h3 class="card-title">{{ seller.username }}</h3>
+                    {% if seller.name %}
+                        <p class="text-muted">{{ seller.name }}</p>
+                    {% endif %}
+                    
+                    <!-- Simple contact button without email functionality -->
+                    <button class="btn btn-primary mt-3 w-100" disabled>
+                        Contact {{ seller.username }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Seller's Available Properties -->
+        <div class="col-md-8">
+            <h2 class="mb-4">{{ seller.username }}'s Properties</h2>
+            
+            <!-- Property Cards -->
+            <div class="row">
+                {% for property in properties %}
+                    {% if not property.is_sold %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <img src="{{ property.image_cover }}" class="card-img-top" alt="{{ property.property_address }}" 
+                                    style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ property.property_address }}</h5>
+                                    <p class="card-text">{{ property.postalcode }} {{ property.city }}</p>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Type:</strong> {{ property.property_type }}</li>
+                                        <li><strong>Size:</strong> {{ property.squaremeters }} m²</li>
+                                        <li><strong>Rooms:</strong> {{ property.roomcount }}</li>
+                                        <li><strong>Price:</strong> {{ property.property_price|intcomma }} kr</li>
+                                    </ul>
+                                    <div class="d-flex justify-content-end">
+                                        <a href="{% url 'property-by-id' id=property.property_id %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            This seller has no available properties listed at the moment.
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

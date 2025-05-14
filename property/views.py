@@ -9,6 +9,7 @@ from offers.models import Offers
 from property.models import Property
 from offers.forms import OfferForm
 from property.filters import PropertyFilter
+from User.models import User
 
 def index(request):
     property_filter = PropertyFilter(request.GET, queryset=Property.objects.all())
@@ -62,6 +63,33 @@ def user_profile(request):
     return render(request, "user/profile.html", {
         "properties": properties
     })
+
+
+def seller_profile(request, seller_id):
+    try:
+        seller = get_object_or_404(User, user_id=seller_id)
+        print(f"Found seller: {seller.username}")
+
+        # Debug profile image
+        if hasattr(seller, 'profile_image'):
+            print(f"Profile image: {seller.profile_image}")
+            if seller.profile_image:
+                print(
+                    f"Profile image URL: {seller.profile_image.url if hasattr(seller.profile_image, 'url') else 'No URL'}")
+        else:
+            print("Seller has no profile_image attribute")
+
+        # Get the seller's properties
+        seller_properties = Property.objects.filter(seller_id=seller)
+        print(f"Found {seller_properties.count()} properties for this seller")
+
+        return render(request, 'properties/seller_profile.html', {
+            'seller': seller,
+            'properties': seller_properties
+        })
+    except Exception as e:
+        print(f"Error in seller_profile: {str(e)}")
+        return HttpResponse(f"Error loading seller profile: {str(e)}")
 
 
 def submit_purchase_offer(request, id):
