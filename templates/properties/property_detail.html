@@ -115,19 +115,19 @@
                 </button>
               </form>
 
-              {% if existing_offer %}
-                <div class="alert alert-info mt-3">
-                  <small>You already submitted an offer of {{ existing_offer.offer_price|intcomma }} kr on
-                  {{ existing_offer.created_date|date:"M d, Y" }}. You can update it using the form above.</small>
-                </div>
-              {% endif %}
-
-              <!-- Messages -->
-              {% if messages %}
-                {% for message in messages %}
-                  <div class="alert alert-{{ message.tags }} mt-2">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
+{#              {% if existing_offer %}#}
+{#                <div class="alert alert-info mt-3">#}
+{#                  <small>You already submitted an offer of {{ existing_offer.offer_price|intcomma }} kr on#}
+{#                  {{ existing_offer.created_date|date:"M d, Y" }}. You can update it using the form above.</small>#}
+{#                </div>#}
+{#              {% endif %}#}
+{##}
+{#              <!-- Messages -->#}
+{#              {% if messages %}#}
+{#                {% for message in messages %}#}
+{#                  <div class="alert alert-{{ message.tags }} mt-2">{{ message }}</div>#}
+{#                {% endfor %}#}
+{#              {% endif %}#}
 
               <!-- Offers List -->
               <hr>
@@ -149,6 +149,21 @@
 
         </div>
       </div>
+    </div>
+  <div>
+        <hr>
+              <h5>Existing Offers</h5>
+              <ul class="list-group">
+                {% for offer in offers %}
+                  <li class="list-group-item">
+                    {{ offer.buyer_id.username }} offered
+                    {{ offer.offer_price|intcomma }} kr — expires
+                    {{ offer.expire_date|date:"Y-m-d" }}
+                  </li>
+                {% empty %}
+                  <li class="list-group-item">No offers yet.</li>
+                {% endfor %}
+              </ul>
     </div>
   </div>
 {% endblock %}
