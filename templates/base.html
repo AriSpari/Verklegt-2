@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 {% load humanize %}
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -10,18 +9,32 @@
   <!-- Add noUiSlider CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+  <!-- Add navbar-specific styles here -->
+  <style>
+    /* Move padding from body to main only */
+    body {
+      padding-top: 0 !important; /* Remove body padding */
+    }
+    
+    main.flex-grow-1 {
+      padding-top: 56px !important; /* Add padding to main content instead */
+    }
+    
+    /* Make banner appear below navbar */
+    #banner-image {
+      margin-top: 0 !important;
+    }
+  </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
-  {% include "_navigation.html" %}
-
+  <header>
+    {% include "_navigation.html" %}
+  </header>
   <main class="flex-grow-1">
     {% block content %}
-
     {% endblock %}
   </main>
-
   {% include "_footer.html" %}
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Add noUiSlider JS -->
   <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>

@@ -1,12 +1,15 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary px-3 position-relative" style="z-index: 1050;">
+<nav class="navbar navbar-expand-lg fixed-top px-3" 
+     style="z-index: 1050; background-color: rgb(57, 134, 244) !important; 
+            opacity: 1 !important; 
+            backdrop-filter: none !important;">
   <div class="container-fluid d-flex justify-content-between align-items-center w-100">
 
     <!-- Logo + Title -->
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
       <img id="navbar-logo" src="{% static 'images/castle logo.png' %}" alt="Castle Logo">
-      <h3 class="m-0" id="navbar-title">Castle Apartments</h3>
+      <h3 class="m-0 text-white" id="navbar-title">Castle Apartments</h3>
     </a>
 
     <!-- Centered Search Form (absolute) -->
@@ -18,10 +21,10 @@
     <ul class="navbar-nav d-flex align-items-center gap-2 mb-0">
       {% if not user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
+          <a class="nav-link text-white" href="{% url 'register' %}">Register</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
         </li>
       {% endif %}
     </ul>
@@ -41,9 +44,7 @@
         </a>
         <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown" id="profile-icon-dropdown">
           <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
-          <li><a class="dropdown-item" href="{% url 'offers:my-offers' %}">My Offers</a></li>
-
-          <li><a class="dropdown-item" href="{% url 'my-listings' %}">My Listings</a></li>
+          <li><a class="dropdown-item" href="#">My Listings</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><hr class="dropdown-divider"></li>
           <li>
