@@ -63,13 +63,13 @@
                 <a href="{% url 'seller-profile' seller_id=property.seller_id.user_id %}" class="text-primary">View Profile</a>
             </li>
           </ul>
-            <button class="btn btn-outline-primary">Seller: {{ property.seller_id }}</button>
+{#            <button class="btn btn-outline-primary">Seller: {{ property.seller_id }}</button>#}
           <p class="h5 text-primary">Price: {{ property.property_price|intcomma }} kr</p>
           <p class="text-muted">Valuation: {{ property.property_valuation|intcomma }} kr</p>
           <p class="text-muted">Fire insurance: {{ property.fire_insurance_value|intcomma }} kr</p>
 
           <p class="mt-3">{{ property.description }}</p>
-
+{% if not request.user == property.seller_id %}
           <!-- Purchase Offer Button -->
           <button class="btn btn-outline-primary mt-4"
                   type="button"
@@ -115,34 +115,21 @@
                 </button>
               </form>
 
-{#              {% if existing_offer %}#}
-{#                <div class="alert alert-info mt-3">#}
-{#                  <small>You already submitted an offer of {{ existing_offer.offer_price|intcomma }} kr on#}
-{#                  {{ existing_offer.created_date|date:"M d, Y" }}. You can update it using the form above.</small>#}
-{#                </div>#}
-{#              {% endif %}#}
-{##}
-{#              <!-- Messages -->#}
-{#              {% if messages %}#}
-{#                {% for message in messages %}#}
-{#                  <div class="alert alert-{{ message.tags }} mt-2">{{ message }}</div>#}
-{#                {% endfor %}#}
-{#              {% endif %}#}
+              {% if existing_offer %}
+                <div class="alert alert-info mt-3">
+                  <small>You already submitted an offer of {{ existing_offer.offer_price|intcomma }} kr on
+                  {{ existing_offer.created_date|date:"M d, Y" }}. You can update it using the form above.</small>
+                </div>
 
-              <!-- Offers List -->
-              <hr>
-              <h5>Existing Offers</h5>
-              <ul class="list-group">
-                {% for offer in offers %}
-                  <li class="list-group-item">
-                    {{ offer.buyer_id.username }} offered
-                    {{ offer.offer_price|intcomma }} kr — expires
-                    {{ offer.expire_date|date:"Y-m-d" }}
-                  </li>
-                {% empty %}
-                  <li class="list-group-item">No offers yet.</li>
+              <!-- Messages -->
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="alert alert-{{ message.tags }} mt-2">{{ message }}</div>
                 {% endfor %}
-              </ul>
+              {% endif %}
+            {% endif %}
+
+
 
             </div>
           </div>
@@ -150,6 +137,8 @@
         </div>
       </div>
     </div>
+  {% endif %}
+  {% if request.user == property.seller_id %}
   <div>
         <hr>
               <h5>Existing Offers</h5>
@@ -165,5 +154,6 @@
                 {% endfor %}
               </ul>
     </div>
+  {% endif %}
   </div>
 {% endblock %}

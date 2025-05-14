@@ -14,8 +14,14 @@
                             <h5 class="card-title">{{ offer.property.property_address }}</h5>
                             <p class="card-text">
                                 <strong>Offer ID:</strong> {{ offer.offer_id }}<br>
+{#                            náði ekki að nota gögn úr bæði 'offers' og 'properties' töflunum  #}
+                                <strong>property Address:</strong> {{ offer.properties.property_address }} <br>
                                 <strong>Price Offered:</strong> {{ offer.offer_price|intcomma }} kr<br>
-                                <strong>Expires:</strong> {{ offer.expire_date }}
+                                <strong>Expires:</strong> {{ offer.expire_date }}<br>
+                                <strong>Status:</strong> {{ offer.status }}<br>
+                                {% if offer.status.id == 1 %}
+                                <a class="btn btn-primary" href="{% url 'offers:finalize-offer' offer_id=offer.offer_id %}">Proceed to payment form</a>
+                                {% endif %}
                             </p>
                         </div>
                     </div>
