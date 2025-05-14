@@ -22,14 +22,31 @@ def index(request):
 
 
 def property_list(request):
+    # Get the filter instance
     f = PropertyFilter(request.GET, queryset=Property.objects.all())
 
-    city_val = request.GET.get("city", "")
-    print("Filtering city with:", city_val)
-    print("Matches:", Property.objects.filter(city__icontains=city_val).count())
+    # Get the sort parameter
+    sort_by = request.GET.get('sort_by', '')
+
+    # Apply sorting if specified
+    queryset = f.qs
+    if sort_by:
+        if sort_by == 'price_asc':
+            queryset = queryset.order_by('property_price')
+        elif sort_by == 'price_desc':
+            queryset = queryset.order_by('-property_price')
+        elif sort_by == 'size_asc':
+            queryset = queryset.order_by('squaremeters')
+        elif sort_by == 'size_desc':
+            queryset = queryset.order_by('-squaremeters')
+        elif sort_by == 'date_asc':
+            queryset = queryset.order_by('listing_date')
+        elif sort_by == 'date_desc':
+            queryset = queryset.order_by('-listing_date')
 
     return render(request, 'properties/properties.html', {
-        'properties': f.qs
+        'properties': queryset,
+        'filter': f,
     })
 
 # This function can be removed or redirected to property_detail
