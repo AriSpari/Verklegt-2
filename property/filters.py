@@ -73,4 +73,5 @@ class PropertyFilter(django_filters.FilterSet):
             'listing_start',
             'listing_end',
             'search',
+            'postalcode',
         ]
