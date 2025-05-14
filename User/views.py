@@ -1,10 +1,8 @@
-# User/views.py
-
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import UserRegistrationForm, ProfileImageForm
+from .forms import UserRegistrationForm, ProfileUpdateForm
 
 
 def register(request):
@@ -30,18 +28,18 @@ def register(request):
 @login_required
 def profile(request):
     """
-    Show the logged-in user's profile, and allow them to upload/change
-    their profile image via a simple ModelForm.
+    Show the logged-in user's profile, and allow them to update their
+    profile information including name, username, and profile image.
     """
     user = request.user
 
     if request.method == 'POST':
-        form = ProfileImageForm(request.POST, request.FILES, instance=user)
+        form = ProfileUpdateForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile')  # reload so new image appears
+            return redirect('profile')  # reload so changes appear
     else:
-        form = ProfileImageForm(instance=user)
+        form = ProfileUpdateForm(instance=user)
 
     return render(request, 'User/profile.html', {
         'user': user,

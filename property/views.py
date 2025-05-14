@@ -1,3 +1,5 @@
+# Modified views.py
+
 from lib2to3.fixes.fix_input import context
 from django.db.models import Q
 from django.http import HttpResponse
@@ -11,8 +13,8 @@ from property.filters import PropertyFilter
 def index(request):
     property_filter = PropertyFilter(request.GET, queryset=Property.objects.all())
     context = {
-        'form' : property_filter.form,
-        'property' : property_filter.qs,
+        'form': property_filter.form,
+        'property': property_filter.qs,
     }
 
     db_properties = Property.objects.all()
@@ -30,16 +32,11 @@ def property_list(request):
         'properties': f.qs
     })
 
+# This function can be removed or redirected to property_detail
 def get_property_by_id(request, id):
-    property_obj = get_object_or_404(Property, pk=id)
-    form = OfferForm()
-    offers = Offers.objects.filter(property_id=property_obj)
+    # Redirect to the main property_detail view to avoid duplication
+    return property_detail(request, id)
 
-    return render(request, 'properties/property_detail.html', {
-        'property': property_obj,
-        'form': form,
-        'offers': offers,
-    })
 def get_property_by_name(request, name):
     return HttpResponse(f"Response from {request.path} with name {name}")
 
@@ -66,9 +63,38 @@ def confirm_offer(request, id):
         "offer_price": offer_price,
         "expire_date": expire_date
     })
-def property_detail(request, pk):
-    property_obj = get_object_or_404(Property, pk=pk)
-    return render(request, 'properties/property_details.html', {
-        'property': property_obj,
-    })
 
+
+def property_detail(request, id):
+    property_obj = get_object_or_404(Property, pk=id)
+
+    # Existing offer check
+    existing_offer = None
+    if request.user.is_authenticated:
+        existing_offer = Offers.objects.filter(
+            buyer_id=request.user,
+            property_id=property_obj
+        ).first()
+
+    # Set button text - ensure this logic is correct
+    button_text = "Update Offer" if existing_offer else "Submit Offer"
+
+    # Form handling
+    form = OfferForm()
+    if existing_offer:
+        form = OfferForm(initial={
+            'offer_price': existing_offer.offer_price,
+            'expire_date': existing_offer.expire_date,
+        })
+
+    # Debug print
+    print(f"Button text determined as: {button_text}")
+
+    context = {
+        'property': property_obj,
+        'form': form,
+        'offers': Offers.objects.filter(property_id=property_obj),
+        'existing_offer': existing_offer,  # Make sure existing_offer is passed to template
+        'button_text': button_text,
+    }
+    return render(request, 'properties/property_detail.html', context)

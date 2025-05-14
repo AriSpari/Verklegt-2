@@ -1,5 +1,3 @@
-# User/forms.py
-
 from django import forms
 from .models import User
 from django.contrib.auth.forms import AuthenticationForm
@@ -15,8 +13,8 @@ class UserRegistrationForm(forms.ModelForm):
         model = User
         fields = ['username', 'password', 'name', 'profile_image']
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
-            'name':     forms.TextInput(attrs={'placeholder': 'Name'}),
+            'username': forms.TextInput(attrs={'placeholder': 'Username', 'class': 'form-control'}),
+            'name':     forms.TextInput(attrs={'placeholder': 'Name', 'class': 'form-control'}),
         }
 
     def save(self, commit=True):
@@ -43,14 +41,17 @@ class LoginForm(AuthenticationForm):
         })
     )
 
-
-
-class ProfileImageForm(forms.ModelForm):
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['profile_image']
+        fields = ['name', 'username', 'profile_image']
         widgets = {
-            # Use FileInput instead of ClearableFileInput
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
+            'username': forms.TextInput(attrs={
+                'class': 'form-control',
+            }),
             'profile_image': forms.FileInput(attrs={
                 'class': 'form-control',
                 'accept': 'image/*',
