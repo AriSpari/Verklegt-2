@@ -4,44 +4,92 @@
 
 {% block content %}
   <div class="container mt-5 mb-5">
-    <div class="flex-wrap" id="confirm-offer-wrapper">
+    <div class="d-flex flex-wrap gap-4" id="confirm-offer-wrapper">
 
       <!-- Left: Property Info -->
-      <div class="bg-white p-4 rounded shadow" id="property-details">
+      <div class="bg-white p-4 rounded shadow flex-fill" id="property-details">
         <h3>{{ property.property_address }}</h3>
-        <p class="text-muted">{{ property.property_address }}, {{ property.postalcode }} {{ property.city }}</p>
-        <img src="{{ property.image_cover }}" alt="property image" class="confirm-offer-image">
+        <p class="text-muted">
+          {{ property.property_address }}, {{ property.postalcode }} {{ property.city }}
+        </p>
+        <img
+          src="{{ property.image_cover }}"
+          alt="property image"
+          class="confirm-offer-image img-fluid mb-3"
+        >
         <ul class="list-group list-group-flush mb-3">
-          <li class="list-group-item"><strong>Type:</strong> {{ property.property_type }}</li>
-          <li class="list-group-item"><strong>Rooms:</strong> {{ property.roomcount }}</li>
-          <li class="list-group-item"><strong>Bedrooms:</strong> {{ property.bedroomcount }}</li>
-          <li class="list-group-item"><strong>Bathrooms:</strong> {{ property.bathroomcount }}</li>
-          <li class="list-group-item"><strong>Size:</strong> {{ property.squaremeters }} m²</li>
-          <li class="list-group-item"><strong>Listing date:</strong> {{ property.listing_date }}</li>
+          <li class="list-group-item">
+            <strong>Type:</strong> {{ property.property_type }}
+          </li>
+          <li class="list-group-item">
+            <strong>Rooms:</strong> {{ property.roomcount }}
+          </li>
+          <li class="list-group-item">
+            <strong>Bedrooms:</strong> {{ property.bedroomcount }}
+          </li>
+          <li class="list-group-item">
+            <strong>Bathrooms:</strong> {{ property.bathroomcount }}
+          </li>
+          <li class="list-group-item">
+            <strong>Size:</strong> {{ property.squaremeters }} m²
+          </li>
+          <li class="list-group-item">
+            <strong>Listing date:</strong> {{ property.listing_date }}
+          </li>
           <li class="list-group-item">
             <strong>Status:</strong>
-            <span class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}">
-              {{ property.is_sold|yesno:"Sold,Available" }}
+            <span
+              class="badge {% if not property.is_sold %}bg-success{% else %}bg-danger{% endif %}"
+            >
+              {{ property.is_sold|yesno:"Available,Sold" }}
             </span>
           </li>
         </ul>
-        <p class="h5 text-primary">Price: {{ property.property_price|intcomma }} kr</p>
-        <p class="text-muted">Valuation: {{ property.property_valuation|intcomma }} kr</p>
-        <p class="text-muted">Fire insurance: {{ property.fire_insurance_value|intcomma }} kr</p>
+        <p class="h5 text-primary mb-1">
+          Price: {{ property.property_price|intcomma }} kr
+        </p>
+        <p class="text-muted mb-1">
+          Valuation: {{ property.property_valuation|intcomma }} kr
+        </p>
+        <p class="text-muted mb-3">
+          Fire insurance: {{ property.fire_insurance_value|intcomma }} kr
+        </p>
         <p>{{ property.description }}</p>
       </div>
 
       <!-- Right: Offer Summary -->
-      <div class="bg-white p-4 rounded shadow " id="offer-summary">
-        <h4>Your Offer Summary</h4>
-        <p><strong>Offer Price:</strong> {{ offer_price }} kr</p>
-        <p><strong>Expires On:</strong> {{ expire_date }}</p>
-          <form method="post" action="{% url 'offers:my-offers' %}">
-              {% csrf_token %}
-              <input type="hidden" name="price" value="{{ offer_price }}">
-              <input type="hidden" name="expire_date" value="{{ expire_date }}">
-              <button type="submit" class="btn btn-primary">Confirm purchase order</button>
-          </form>
+      <div
+        class="bg-white p-4 rounded shadow"
+        id="offer-summary"
+        style="min-width: 300px;"
+      >
+        <h4 class="mb-4">Your Offer Summary</h4>
+        <p><strong>Offer Price:</strong> {{ offer_price|intcomma }} kr</p>
+        <p class="mb-4"><strong>Expires On:</strong> {{ expire_date }}</p>
+
+        <form method="post" action="{% url 'offers:make_offer' property.id %}">
+          {% csrf_token %}
+
+          <!-- Hidden inputs matching your form field names -->
+          <input
+            type="hidden"
+            name="offer_price"
+            value="{{ offer_price }}"
+          >
+          <input
+            type="hidden"
+            name="expire_date"
+            value="{{ expire_date }}"
+          >
+
+          <button type="submit" class="btn btn-primary w-100">
+            {% if button_text %}
+              {{ button_text }}
+            {% else %}
+              Confirm purchase order
+            {% endif %}
+          </button>
+        </form>
       </div>
 
     </div>

@@ -25,6 +25,9 @@ def make_offer(request, property_id):
         form = OfferForm(request.POST)
         if form.is_valid():
             if existing_offer:
+                # Debugging - Check the data being submitted
+                print(f"Existing offer found: {existing_offer.offer_id}")
+
                 # Update existing offer
                 existing_offer.offer_price = form.cleaned_data['offer_price']
                 existing_offer.expire_date = form.cleaned_data['expire_date']
@@ -32,14 +35,17 @@ def make_offer(request, property_id):
                 messages.success(request, 'Your offer has been updated!')
             else:
                 # Create new offer
+                print("Creating new offer")
                 offer = form.save(commit=False)
                 offer.property_id = property_obj
                 offer.buyer_id = request.user
                 offer.save()
                 messages.success(request, 'Your offer has been submitted!')
 
+            # Redirect to property details page
             return redirect('property_detail', id=property_id)
-        messages.error(request, 'Please correct the errors below.')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         # Pre-fill form with existing offer data if it exists
         if existing_offer:
@@ -66,6 +72,7 @@ def make_offer(request, property_id):
     print(f"make_offer view button_text: {button_text}")
 
     return render(request, 'properties/property_detail.html', context)
+
 
 
 @login_required
