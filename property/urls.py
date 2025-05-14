@@ -13,5 +13,6 @@ urlpatterns = [
     path('property/<int:id>/confirm-offer/', views.confirm_offer, name='confirm-offer'),
     path('', views.index, name='property_index'),
     path('property/<int:id>/', views.get_property_by_id, name='property_detail'),
+    path('seller/<int:seller_id>/', views.seller_profile, name='seller-profile'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
