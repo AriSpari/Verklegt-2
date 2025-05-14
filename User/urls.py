@@ -16,4 +16,5 @@ urlpatterns = [
         ),
         name='login'
     ),
+    path('my-listings/', views.my_listings, name='my-listings'),
 ]

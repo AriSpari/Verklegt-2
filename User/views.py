@@ -1,6 +1,10 @@
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from property.models import Property
+
+
+
 
 from .forms import UserRegistrationForm, ProfileUpdateForm
 
@@ -44,4 +48,10 @@ def profile(request):
     return render(request, 'User/profile.html', {
         'user': user,
         'form': form,
+    })
+@login_required
+def my_listings(request):
+    listings = Property.objects.filter(seller_id=request.user)
+    return render(request, 'user/my_listings.html', {
+        'listings': listings
     })

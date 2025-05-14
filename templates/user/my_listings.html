@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">My Listings </h2>
+
+    {% if listings %}
+        <div class="row">
+            {% for listing in listings %}
+
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">You haven't made any listings yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
