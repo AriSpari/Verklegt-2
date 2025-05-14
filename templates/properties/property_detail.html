@@ -78,7 +78,7 @@
             <div class="card card-body">
 
               <!-- Offer Form -->
-              <form method="post" action="{% url 'offers:make_offer' property.id %}">
+              <form method="get" action="{% url 'confirm-offer' property.id %}">
                 {% csrf_token %}
                 {{ form.non_field_errors }}
 
