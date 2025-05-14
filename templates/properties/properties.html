@@ -9,80 +9,93 @@
 </div>
 <div class="container filter-section position-relative">
     <form class="row g-3 mb-4" method="get" action=".">
-        <!-- City -->
-        <div class="col-md-3">
-            <label for="city" class="form-label">City</label>
-            <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
-        </div>
+        
+        <!-- Top Row -->
+<div class="row g-3 mb-2">  <!-- First row -->
+    <!-- City -->
+    <div class="col-md-3">
+        <label for="city" class="form-label">City</label>
+        <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
+    </div>
 
-        <!-- Property Type -->
-        <div class="col-md-3">
-            <label for="type" class="form-label">Type</label>
-            <select class="form-select" id="type" name="type">
-                <option value="">All Types</option>
-                <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
-                <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
-                <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
-            </select>
-        </div>
+    <!-- Property Type -->
+    <div class="col-md-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-select" id="type" name="type">
+            <option value="">All Types</option>
+            <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
+            <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
+            <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
+        </select>
+    </div>
 
-        <!-- Status -->
-        <div class="col-md-3">
-            <label for="status" class="form-label">Status</label>
-            <select class="form-select" id="status" name="status">
-                <option value="">All</option>
-                <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
-                <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
-            </select>
-        </div>
+    <!-- Status -->
+    <div class="col-md-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+            <option value="">All</option>
+            <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
+            <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
+        </select>
+    </div>
 
-        <!-- Listing Date Range -->
-        <div class="col-md-3">
-            <label class="form-label">Listing Date Range</label>
-            
-            <div class="input-group mb-2">
-                <span class="input-group-text text-muted" style="min-width: 45px;">From</span>
-                <input type="date" class="form-control" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
-            </div>
-            
-            <div class="input-group">
-                <span class="input-group-text text-muted" style="min-width: 62px; justify-content: center;">To</span>
-                <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
-            </div>
-        </div>
-
-        <!-- Price Range (Dual Slider) -->
-        <div class="col-md-3 me-4">
-            <label class="form-label">Price Range</label>
-            <div id="price-slider" class="mb-3 mt-3"></div>
-            <input type="hidden" id="property_price_min" name="property_price_min" value="{{ request.GET.property_price_min|default:'10000' }}">
-            <input type="hidden" id="property_price_max" name="property_price_max" value="{{ request.GET.property_price_max|default:'250000000' }}">
-            <small class="text-muted d-flex justify-content-between">
-                <span>From <span id="priceDisplayMin">0</span> kr</span>
-                <span>to <span id="priceDisplayMax">250,000,000+</span> kr</span>
-            </small>
-        </div>
-
+    <!-- Listing Date Range -->
+    <div class="col-md-3">
+    <label class="form-label">Listing Date Range</label>
     
-        <!-- Size Range (Dual Slider) -->
-        <div class="col-md-3">
-            <label class="form-label">Size Range (m²)</label>
-            <div id="size-slider" class="mb-3 mt-3"></div>
-            <input type="hidden" id="squaremeters_min" name="squaremeters_min" value="{{ request.GET.squaremeters_min|default:'1' }}">
-            <input type="hidden" id="squaremeters_max" name="squaremeters_max" value="{{ request.GET.squaremeters_max|default:'1000' }}">
-            <small class="text-muted d-flex justify-content-between">
-                <span>From <span id="sizeDisplayMin">0</span> m²</span>
-                <span>to <span id="sizeDisplayMax">1,000+</span> m²</span>
-            </small>
+    <div class="input-group mb-2">
+        <span class="input-group-text text-muted" style="min-width: 45px; justify-content: center;">From</span>
+        <input type="date" class="form-control" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
+    </div>
+    
+    <div class="input-group">
+        <span class="input-group-text text-muted" style="min-width: 62px; justify-content: center;">To</span>
+        <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
+    </div>
+</div>
+</div>
+
+    <!-- Bottom Row -->
+    <div class="row g-3 mb-4">  <!-- Second row -->
+        <!-- Postcode -->
+        <div class="col-md-3 order-first"> 
+        <label for="postalcode" class="form-label">Postcode</label>
+        <input type="text" class="form-control" id="postalcode" name="postalcode" 
+               placeholder="Enter postcode" value="{{ request.GET.postcode }}">
+    </div>
+
+    <!-- Price Range (Dual Slider) -->
+    <div class="col-md-3 me-4">
+        <label class="form-label">Price Range</label>
+        <div id="price-slider" class="mb-3 mt-3"></div>
+        <input type="hidden" id="property_price_min" name="property_price_min" value="{{ request.GET.property_price_min|default:'0' }}">
+        <input type="hidden" id="property_price_max" name="property_price_max" value="{{ request.GET.property_price_max|default:'250000000' }}">
+        <small class="text-muted d-flex justify-content-between">
+            <span>From <span id="priceDisplayMin">0</span> kr</span>
+            <span>to <span id="priceDisplayMax">250,000,000+</span> kr</span>
+        </small>
+    </div>
+
+    <!-- Size Range (Dual Slider) -->
+    <div class="col-md-3">
+        <label class="form-label">Size Range (m²)</label>
+        <div id="size-slider" class="mb-3 mt-3"></div>
+        <input type="hidden" id="squaremeters_min" name="squaremeters_min" value="{{ request.GET.squaremeters_min|default:'0' }}">
+        <input type="hidden" id="squaremeters_max" name="squaremeters_max" value="{{ request.GET.squaremeters_max|default:'600' }}">
+        <small class="text-muted d-flex justify-content-between">
+            <span>From <span id="sizeDisplayMin">0</span> m²</span>
+            <span>to <span id="sizeDisplayMax">1,000+</span> m²</span>
+        </small>
+    </div>
+    
+    <!-- Submit and Clear Buttons -->
+    <div class="col-md-3 d-flex align-items-end">
+        <div class="d-flex gap-2 w-100">
+            <button type="submit" class="btn btn-primary btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Apply Filters</button>
+            <a href="{% url 'property-list' %}" class="btn btn-danger btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Clear Filters</a>
         </div>
-            
-        <!-- Submit and Clear Buttons -->
-        <div class="col-md-3 d-flex align-items-end">
-            <div class="d-flex gap-2 w-100">
-                <button type="submit" class="btn btn-primary btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Apply Filters</button>
-                <a href="{% url 'property-list' %}" class="btn btn-danger btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Clear Filters</a>
-            </div>
-        </div>
+    </div>
+</div>
     </form>
 </div>
 
@@ -154,7 +167,7 @@
                 connect: true,
                 step: 500000,
                 range: {
-                    'min': 10000,
+                    'min': 0,
                     'max': 250000000
                 }
             });
@@ -219,8 +232,8 @@
                 connect: true,
                 step: 1,
                 range: {
-                    'min': 1,
-                    'max': 1000
+                    'min': 0,
+                    'max': 600
                 }
             });
             
@@ -233,9 +246,9 @@
                     sizeDisplayMin.textContent = value.toLocaleString();
                 } else {
                     // When at maximum, set a special value (-1) to indicate "no upper limit"
-                    if (value >= 1000) {
+                    if (value >= 600) {
                         sizeMax.value = -1; // Special value to indicate no upper limit
-                        sizeDisplayMax.textContent = "1,000+";
+                        sizeDisplayMax.textContent = "600+";
                     } else {
                         sizeMax.value = value;
                         sizeDisplayMax.textContent = value.toLocaleString();
@@ -245,8 +258,8 @@
             
             // Update display text immediately to match initial values
             sizeDisplayMin.textContent = initialSizeMin.toLocaleString();
-            if (initialSizeMax >= 1000) {
-                sizeDisplayMax.textContent = "1,000+";
+            if (initialSizeMax >= 600) {
+                sizeDisplayMax.textContent = "600+";
             } else {
                 sizeDisplayMax.textContent = initialSizeMax.toLocaleString();
             }

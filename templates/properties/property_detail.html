@@ -70,7 +70,11 @@
                   data-bs-target="#purchaseOfferForm"
                   aria-expanded="false"
                   aria-controls="purchaseOfferForm">
-            Make a Purchase Offer
+            {% if existing_offer %}
+              Update Your Offer
+            {% else %}
+              Make a Purchase Offer
+            {% endif %}
           </button>
 
           <!-- Collapsible Form -->
@@ -94,13 +98,27 @@
                   {{ form.expire_date.errors }}
                 </div>
 
-                <button type="submit" class="btn btn-success">Submit Offer</button>
+                <!-- Use button_text variable for submit button -->
+                <button type="submit" class="btn btn-success">
+                  {% if button_text %}
+                    {{ button_text }}
+                  {% else %}
+                    Submit Offer
+                  {% endif %}
+                </button>
               </form>
+
+              {% if existing_offer %}
+                <div class="alert alert-info mt-3">
+                  <small>You already submitted an offer of {{ existing_offer.offer_price|intcomma }} kr on
+                  {{ existing_offer.created_date|date:"M d, Y" }}. You can update it using the form above.</small>
+                </div>
+              {% endif %}
 
               <!-- Messages -->
               {% if messages %}
                 {% for message in messages %}
-                  <div class="alert {{ message.tags }} mt-2">{{ message }}</div>
+                  <div class="alert alert-{{ message.tags }} mt-2">{{ message }}</div>
                 {% endfor %}
               {% endif %}
 
