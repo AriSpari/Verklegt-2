@@ -6,313 +6,344 @@
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: rgb(149, 194, 253);
+  padding-top: 56px;
   color: #1b2a4e;
 }
 
-/* Enhanced Card */
-.property-card {
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  background-color: #ffffff;
-  box-shadow: 0 4px 20px rgba(0, 64, 128, 0.08);
-  transition: all 0.15s ease;
+/* nav bar */
+.navbar.fixed-top {
+  background-color: rgb(57, 134, 244) !important;
+  opacity: 1 !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.property-card:hover {
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgb(36, 233, 245) !important;
-  transform: scale(1.03);
-}
+  /* Enhanced Card */
+  .property-card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 64, 128, 0.08);
+    transition: all 0.15s ease;
+  }
 
-/* Image */
-.property-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
+  .property-card:hover {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgb(36, 233, 245) !important;
+    transform: scale(1.03);
+  }
 
-/* Card body */
-.card-body {
-  padding: 20px;
-}
+  /* Image */
 
-.card-address,
-.card-city-and-post-code {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1b3b73;
-  margin-bottom: 10px;
-}
+  .property-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
 
-.card-description {
-  font-size: 0.95rem;
-  color: #3a4e68;
-  margin-bottom: 16px;
-}
+  /* Card body */
 
-/* Details list */
-.card-details {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 16px 0;
-}
+  .card-body {
+    padding: 20px;
+  }
 
-.card-details li {
-  font-size: 0.9rem;
-  color: #4d607d;
-  padding: 6px 0;
-  border-bottom: 1px solid #dce5f1;
-}
+  .card-address,
+  .card-city-and-post-code {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1b3b73;
+    margin-bottom: 10px;
+  }
 
-/* Price and valuation */
-.card-price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #0b5ed7;
-  margin-top: 10px;
-}
+  .card-description {
+    font-size: 0.95rem;
+    color: #3a4e68;
+    margin-bottom: 16px;
+  }
 
-.card-valuation,
-.card-insurance {
-  font-size: 0.85rem;
-  color: #3a587b;
-  margin-top: 4px;
-}
+  /* Details list */
 
-/* Buttons */
-.btn-primary {
-  background-color: #0b5ed7;
-  border: none;
-  padding: 10px 16px;
-  font-weight: 500;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-}
+  .card-details {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px 0;
+  }
 
-.btn-primary:hover {
-  background-color: #094fb3;
-}
+  .card-details li {
+    font-size: 0.9rem;
+    color: #4d607d;
+    padding: 6px 0;
+    border-bottom: 1px solid #dce5f1;
+  }
 
-.btn-outline-primary {
-  border-color: #0b5ed7;
-  color: #0b5ed7;
-}
+  /* Price and valuation */
 
-.btn-outline-primary:hover {
-  background-color: #0b5ed7;
-  color: white;
-}
+  .card-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #0b5ed7;
+    margin-top: 10px;
+  }
 
-.btn-outline-secondary {
-  border-color: #6c84a5;
-  color: #6c84a5;
-}
+  .card-valuation,
+  .card-insurance {
+    font-size: 0.85rem;
+    color: #3a587b;
+    margin-top: 4px;
+  }
 
-.btn-outline-secondary:hover {
-  background-color: #6c84a5;
-  color: white;
-}
+  /* Buttons */
 
-.sold-status.available {
-  color: #0d6efd !important;
-}
+  .btn-primary {
+    background-color: #0b5ed7;
+    border: none;
+    padding: 10px 16px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+  }
 
-.sold-status.sold {
-  color: #b02a37;
-}
+  .btn-primary:hover {
+    background-color: #094fb3;
+  }
 
-.back-button {
-  position: relative;
-  left: 50px;
-}
+  .btn-outline-primary {
+    border-color: #0b5ed7;
+    color: #0b5ed7;
+  }
 
-input[type=range]::-webkit-slider-runnable-track {
-  background-color: #cfe2ff;
-  height: 6px;
-  border-radius: 3px;
-}
+  .btn-outline-primary:hover {
+    background-color: #0b5ed7;
+    color: white;
+  }
 
-.filter-section {
-  background-size: cover;
-  background-position: center 70%;
-  background-repeat: no-repeat;
-  padding: 20px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  border-radius: 12px;
-  color: white; /* Optional, makes form text more visible */
-}
+  .btn-outline-secondary {
+    border-color: #6c84a5;
+    color: #6c84a5;
+  }
 
-.filter-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4); /* dark overlay */
-  z-index: 1;
-  border-radius: 12px;
-}
+  .btn-outline-secondary:hover {
+    background-color: #6c84a5;
+    color: white;
+  }
 
-.filter-section > * {
-  position: relative;
-  background-position: center 80%;
-  z-index: 2;
-}
+  .sold-status.available {
+    color: #0d6efd !important;
+  }
 
-#min-to-max-price{
-  color: black;
-  /*background-color: black;*/
-}
+  .sold-status.sold {
+    color: #b02a37;
+  }
 
-#banner-image {
+  .back-button {
     position: relative;
-    background-image:
-        linear-gradient(to bottom, #95c2fd, rgba(0, 0, 0, 0)),
-        url("https://www.nar.realtor/_next/image?url=https%3A%2F%2Fcms.nar.realtor%2F%2Fsites%2Fdefault%2Ffiles%2Fgettyimages-1192403701.jpg%3Fitok%3DyKvTqoah&w=3840&q=75&dpl=dpl_CEYnEVZJzq6TYGawUWChibU8Jciw");
+    left: 50px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    background-color: #cfe2ff;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .filter-section {
     background-size: cover;
     background-position: center 70%;
     background-repeat: no-repeat;
-    padding: 150px 0;
-    margin: 20px 0;
-}
+    padding: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    color: white; /* Optional, makes form text more visible */
+  }
 
-#logo-overlay {
+  .filter-section::before {
+    content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 180px;
-    height: auto;
-    opacity: 0.95;
-    border-radius: 20px;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4); /* dark overlay */
+    z-index: 1;
+    border-radius: 12px;
+  }
+
+  .filter-section > * {
+    position: relative;
+    background-position: center 80%;
+    z-index: 2;
+  }
+
+  #min-to-max-price {
+    color: black;
+    /*background-color: black;*/
+  }
+
+/* Banner Image - Strong overrides */
+/* Add padding to main instead */
+main.flex-grow-1 {
+  padding-top: 56px; /* Add padding to main content */
 }
 
-
-.castle-apartments-logo{
-  border-radius: 10px;
-  max-width: 3em;
-}
-
-#navbar-logo {
-  max-width: 2.5em;
-  height: auto;
-  border-radius: 50%;
-}
-
-.navbar {
-  background-color: rgba(57, 134, 244, 0.84) !important; /* Example: Bootstrap primary blue */
-}
-
-/* Change navbar link colors */
-.navbar-dark .navbar-nav .nav-link {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-/* Hover effect on navbar links */
-.navbar-dark .navbar-nav .nav-link:hover {
-  color: white !important;
-  text-decoration: underline;
-}
-
-/* Active link styling */
-.navbar-dark .navbar-nav .active > .nav-link {
-  font-weight: bold;
-  color: white !important;
-}
-
-
-#register-form{
+/* Banner image */
+#banner-image {
   position: relative;
+  background-image: linear-gradient(to bottom, #95c2fd, rgba(0, 0, 0, 0)),
+      url("https://www.nar.realtor/_next/image?url=https%3A%2F%2Fcms.nar.realtor%2F%2Fsites%2Fdefault%2Ffiles%2Fgettyimages-1192403701.jpg%3Fitok%3DyKvTqoah&w=3840&q=75&dpl=dpl_CEYnEVZJzq6TYGawUWChibU8Jciw");
+  background-size: cover;
+  background-position: center 70%;
+  background-repeat: no-repeat;
+  padding: 150px 0; /* Original padding */
+  margin: 0; /* No margin */
+  margin-bottom: 60px; /* Only bottom margin */
+  height: 400px; /* Fixed height */
 }
 
 
-.profile-avatar {
-  width: 2.5em;
-  height: 2.5em;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ccc;
+/* Logo overlay with strong styling */
+#logo-overlay {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    max-width: 200px ;
+    min-width: 150px;
+    width: 180px;
+    height: auto ;
+    opacity: 0.95 ;
+    border-radius: 20px;
+    z-index: 10;
 }
 
 
-.navbar-search-form {
+  .castle-apartments-logo {
+    border-radius: 10px;
+    max-width: 3em;
+  }
+
+  #navbar-logo {
+    max-width: 2.5em;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .navbar {
+    transition: all 0.3s ease;
+  }
+
+  /* Change navbar link colors */
+
+  .navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  /* Hover effect on navbar links */
+
+  .navbar-dark .navbar-nav .nav-link:hover {
+    color: white !important;
+    text-decoration: underline;
+  }
+
+  /* Active link styling */
+
+  .navbar-dark .navbar-nav .active > .nav-link {
+    font-weight: bold;
+    color: white !important;
+  }
+
+
+  #register-form {
+    position: relative;
+  }
+
+
+  .profile-avatar {
+    width: 2.5em;
+    height: 2.5em;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+  }
+
+
+  .navbar-search-form {
     /*max-width: 100em;*/
     width: 30%;
-  padding: 0 1rem;
-}
+    padding: 0 1rem;
+  }
 
-.navbar-search-input {
+  .navbar-search-input {
     padding: 0.6em 1.2em;
     border-radius: 50px;
     border: 1px solid #ccc;
     background-color: #f8f9fa;
     transition: box-shadow 0.2s ease-in-out, border-color 0.2s;
-}
+  }
 
-.navbar-search-input:focus {
+  .navbar-search-input:focus {
     outline: none;
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
-}
+  }
 
-@media (max-width: 900px) {
+  @media (max-width: 900px) {
     /*.navbar-search-form {*/
     /*    display: none;*/
     /*}*/
-    #navbar-title{
+    #navbar-title {
       display: none;
     }
-}
+  }
 
-#profile-icon{
-  position: absolute;
-  right: 3%;
-  /*z-index: 1051;*/
-}
+  #profile-icon {
+    position: absolute;
+    right: 3%;
+    /*z-index: 1051;*/
+  }
 
-#profile-icon-dropdown{
-  position: absolute;
-  top: 100%;
-}
-/*  Nú byrjar css fyrir confirm offer interface  */
+  #profile-icon-dropdown {
+    position: absolute;
+    top: 100%;
+  }
 
-.confirm-container {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
+  /*  Nú byrjar css fyrir confirm offer interface  */
 
-.confirm-left,
-.confirm-right {
-  flex: 1 1 45%;
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+  .confirm-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
 
-#confirm-offer-wrapper {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
+  .confirm-left,
+  .confirm-right {
+    flex: 1 1 45%;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
 
-#property-details, #offer-summary {
-  flex: 1 1 45%;
-  min-width: 300px;
-}
+  #confirm-offer-wrapper {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
 
-.confirm-offer-image{
+  #property-details, #offer-summary {
+    flex: 1 1 45%;
+    min-width: 300px;
+  }
+
+  .confirm-offer-image {
     max-width: 30em !important;
     max-height: 20em !important;
-}
+  }
 
-#offer-summary{
+  #offer-summary {
     height: fit-content !important;
-}
+  }
 
 
   /* Make the slider look more like Bootstrap's */
+
   .noUi-target {
     height: 6px;
     border-radius: 3px;
@@ -322,6 +353,7 @@ input[type=range]::-webkit-slider-runnable-track {
   }
 
   /* Make handles round and similar size to Bootstrap's */
+
   .noUi-handle {
     width: 16px !important;
     height: 16px !important;
@@ -334,15 +366,18 @@ input[type=range]::-webkit-slider-runnable-track {
   }
 
   /* Remove the default lines inside handle */
+
   .noUi-handle:before,
   .noUi-handle:after {
     display: none;
   }
 
   /* Make the range highlight match Bootstrap primary */
+
   .noUi-connect {
     background-color: #0d6efd;
   }
+
 
 
 /*  Css fyrir confirm user interface búið  */

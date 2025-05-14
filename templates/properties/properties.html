@@ -3,104 +3,122 @@
 {% load static %}
 
 {% block content %}
-<!-- FILTER FORM -->
-<div id="banner-image" class="position-relative">
-    <img id="logo-overlay" src="{% static 'images/CastleApartments logo.png' %}" class="logo-overlay castle-apartments-logo" alt="Castle Apartments Logo">
+<!-- FILTER FORM - with larger explicit styles -->
+<div id="banner-image" class="position-relative" style="height: 400px !important; padding: 200px 0 !important; margin-top: 0 !important;">
+    <img id="logo-overlay" src="{% static 'images/CastleApartments logo.png' %}" class="logo-overlay castle-apartments-logo" alt="Castle Apartments Logo" style="max-width: 220px !important; min-width: 180px !important;">
 </div>
+
 <div class="container filter-section position-relative">
-    <form class="row g-3 mb-4" method="get" action=".">
-        
-        <!-- Top Row -->
-<div class="row g-3 mb-2">  <!-- First row -->
-    <!-- City -->
-    <div class="col-md-3">
-        <label for="city" class="form-label">City</label>
-        <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
-    </div>
+    <form method="get" action=".">
+        <!-- First row -->
+        <div class="row g-3 mb-3">
+            <!-- City -->
+            <div class="col-md-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" value="{{ request.GET.city }}">
+            </div>
 
-    <!-- Property Type -->
-    <div class="col-md-3">
-        <label for="type" class="form-label">Type</label>
-        <select class="form-select" id="type" name="type">
-            <option value="">All Types</option>
-            <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
-            <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
-            <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
-        </select>
-    </div>
+            <!-- Property Type -->
+            <div class="col-md-3">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type">
+                    <option value="">All Types</option>
+                    <option value="Villa" {% if request.GET.type == "Villa" %}selected{% endif %}>Villa</option>
+                    <option value="Cottage" {% if request.GET.type == "Cottage" %}selected{% endif %}>Cottage</option>
+                    <option value="Single-family" {% if request.GET.type == "Single-family" %}selected{% endif %}>Single-family</option>
+                </select>
+            </div>
 
-    <!-- Status -->
-    <div class="col-md-3">
-        <label for="status" class="form-label">Status</label>
-        <select class="form-select" id="status" name="status">
-            <option value="">All</option>
-            <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
-            <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
-        </select>
-    </div>
+            <!-- Status -->
+            <div class="col-md-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="">All</option>
+                    <option value="available" {% if request.GET.status == "available" %}selected{% endif %}>Available</option>
+                    <option value="sold" {% if request.GET.status == "sold" %}selected{% endif %}>Sold</option>
+                </select>
+            </div>
 
-    <!-- Listing Date Range -->
-    <div class="col-md-3">
-    <label class="form-label">Listing Date Range</label>
-    
-    <div class="input-group mb-2">
-        <span class="input-group-text text-muted" style="min-width: 45px; justify-content: center;">From</span>
-        <input type="date" class="form-control" id="listing_start" name="listing_start" value="{{ request.GET.listing_start }}">
-    </div>
-    
-    <div class="input-group">
-        <span class="input-group-text text-muted" style="min-width: 62px; justify-content: center;">To</span>
-        <input type="date" class="form-control" id="listing_end" name="listing_end" value="{{ request.GET.listing_end }}">
-    </div>
-</div>
-</div>
-
-    <!-- Bottom Row -->
-    <div class="row g-3 mb-4">  <!-- Second row -->
-        <!-- Postcode -->
-        <div class="col-md-3 order-first"> 
-        <label for="postalcode" class="form-label">Postcode</label>
-        <input type="text" class="form-control" id="postalcode" name="postalcode" 
-               placeholder="Enter postcode" value="{{ request.GET.postcode }}">
-    </div>
-
-    <!-- Price Range (Dual Slider) -->
-    <div class="col-md-3 me-4">
-        <label class="form-label">Price Range</label>
-        <div id="price-slider" class="mb-3 mt-3"></div>
-        <input type="hidden" id="property_price_min" name="property_price_min" value="{{ request.GET.property_price_min|default:'0' }}">
-        <input type="hidden" id="property_price_max" name="property_price_max" value="{{ request.GET.property_price_max|default:'250000000' }}">
-        <small class="text-muted d-flex justify-content-between">
-            <span>From <span id="priceDisplayMin">0</span> kr</span>
-            <span>to <span id="priceDisplayMax">250,000,000+</span> kr</span>
-        </small>
-    </div>
-
-    <!-- Size Range (Dual Slider) -->
-    <div class="col-md-3">
-        <label class="form-label">Size Range (m²)</label>
-        <div id="size-slider" class="mb-3 mt-3"></div>
-        <input type="hidden" id="squaremeters_min" name="squaremeters_min" value="{{ request.GET.squaremeters_min|default:'0' }}">
-        <input type="hidden" id="squaremeters_max" name="squaremeters_max" value="{{ request.GET.squaremeters_max|default:'600' }}">
-        <small class="text-muted d-flex justify-content-between">
-            <span>From <span id="sizeDisplayMin">0</span> m²</span>
-            <span>to <span id="sizeDisplayMax">1,000+</span> m²</span>
-        </small>
-    </div>
-    
-    <!-- Submit and Clear Buttons -->
-    <div class="col-md-3 d-flex align-items-end">
-        <div class="d-flex gap-2 w-100">
-            <button type="submit" class="btn btn-primary btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Apply Filters</button>
-            <a href="{% url 'property-list' %}" class="btn btn-danger btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Clear Filters</a>
+            <!-- Listing Date Range with clickable inputs -->
+            <div class="col-md-3">
+                <label class="form-label">Listing Date Range</label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text text-muted" style="min-width: 45px; justify-content: center;">From</span>
+                    <input type="date" class="form-control date-input" id="listing_start" name="listing_start" 
+                           value="{{ request.GET.listing_start }}" style="cursor: pointer;" readonly>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text text-muted" style="min-width: 62px; justify-content: center;">To</span>
+                    <input type="date" class="form-control date-input" id="listing_end" name="listing_end" 
+                           value="{{ request.GET.listing_end }}" style="cursor: pointer;" readonly>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+        
+        <!-- Second row -->
+        <div class="row g-3 mb-4">
+            <!-- Postcode -->
+            <div class="col-md-3">
+                <label for="postalcode" class="form-label">Postcode</label>
+                <input type="text" class="form-control" id="postalcode" name="postalcode" 
+                       placeholder="Enter postcode" value="{{ request.GET.postcode }}">
+            </div>
+
+            <!-- Price Range (Dual Slider) -->
+            <div class="col-md-3 me-4">
+                <label class="form-label">Price Range</label>
+                <div id="price-slider" class="mb-3 mt-3"></div>
+                <input type="hidden" id="property_price_min" name="property_price_min" value="{{ request.GET.property_price_min|default:'0' }}">
+                <input type="hidden" id="property_price_max" name="property_price_max" value="{{ request.GET.property_price_max|default:'250000000' }}">
+                <small class="text-muted d-flex justify-content-between">
+                    <span>From <span id="priceDisplayMin">0</span> kr</span>
+                    <span>to <span id="priceDisplayMax">250,000,000+</span> kr</span>
+                </small>
+            </div>
+
+            <!-- Size Range (Dual Slider) -->
+            <div class="col-md-3">
+                <label class="form-label">Size Range (m²)</label>
+                <div id="size-slider" class="mb-3 mt-3"></div>
+                <input type="hidden" id="squaremeters_min" name="squaremeters_min" value="{{ request.GET.squaremeters_min|default:'0' }}">
+                <input type="hidden" id="squaremeters_max" name="squaremeters_max" value="{{ request.GET.squaremeters_max|default:'600' }}">
+                <small class="text-muted d-flex justify-content-between">
+                    <span>From <span id="sizeDisplayMin">0</span> m²</span>
+                    <span>to <span id="sizeDisplayMax">600+</span> m²</span>
+                </small>
+            </div>
+            
+            <!-- order By Dropdown  -->
+            <div class="col-md-3">
+                <label for="sort_by" class="form-label" style="color: white; font-weight: 500;">Order By</label>
+                <div style="position: relative;">
+                    <select class="form-select" id="sort_by" name="sort_by" 
+                            style="border-radius: 50px; border: 2px solid white; padding: 8px 16px; 
+                                   background-color: white; color: black;">
+                        <option value="">Default Order</option>
+                        <option value="price_asc" {% if request.GET.sort_by == "price_asc" %}selected{% endif %}>Price (Low to High)</option>
+                        <option value="price_desc" {% if request.GET.sort_by == "price_desc" %}selected{% endif %}>Price (High to Low)</option>
+                        <option value="size_asc" {% if request.GET.sort_by == "size_asc" %}selected{% endif %}>Size (Small to Large)</option>
+                        <option value="size_desc" {% if request.GET.sort_by == "size_desc" %}selected{% endif %}>Size (Large to Small)</option>
+                        <option value="date_asc" {% if request.GET.sort_by == "date_asc" %}selected{% endif %}>Date (Oldest First)</option>
+                        <option value="date_desc" {% if request.GET.sort_by == "date_desc" %}selected{% endif %}>Date (Newest First)</option>
+                    </select>
+                </div>
+            </div>
+                        
+            <!-- Submit and Clear Buttons -->
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="d-flex gap-2 w-100">
+                    <button type="submit" class="btn btn-primary btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Apply Filters</button>
+                    <a href="{% url 'property-list' %}" class="btn btn-danger btn-lg" style="flex: 1; min-width: fit-content; white-space: nowrap; padding-left: 20px; padding-right: 20px;">Clear Filters</a>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 
 <!-- PROPERTY CARDS -->
-<div class="container">
+<div class="container" id="results-container">
     <div class="row">
         {% for property in properties %}
             <div class="col-md-4 mb-4">
@@ -134,139 +152,190 @@
     </div>
 </div>
 
-    <!--javascript fyrir slidera-->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Price Slider
-        const priceSlider = document.getElementById('price-slider');
-        const priceMin = document.getElementById('property_price_min');
-        const priceMax = document.getElementById('property_price_max');
-        const priceDisplayMin = document.getElementById('priceDisplayMin');
-        const priceDisplayMax = document.getElementById('priceDisplayMax');
-        
-        // Set initial values from form inputs or defaults
-        let initialPriceMin = priceMin.value ? parseInt(priceMin.value) : 0;
-        
-        // For max price, check for special -1 value (no upper limit)
-        let initialPriceMax;
-        if (priceMax.value == -1) {
-            initialPriceMax = 250000000; // Set slider to max, even though filter has no limit
-        } else {
-            initialPriceMax = priceMax.value ? parseInt(priceMax.value) : 250000000;
-        }
-        
-        // Create the price slider
-        if (priceSlider && typeof noUiSlider !== 'undefined') {
-            // Destroy existing slider if it exists
-            if (priceSlider.noUiSlider) {
-                priceSlider.noUiSlider.destroy();
-            }
-            
-            noUiSlider.create(priceSlider, {
-                start: [initialPriceMin, initialPriceMax],
-                connect: true,
-                step: 500000,
-                range: {
-                    'min': 0,
-                    'max': 250000000
-                }
-            });
-            
-            // Update values on slide
-            priceSlider.noUiSlider.on('update', function(values, handle) {
-                const value = parseInt(values[handle]);
-                
-                if (handle === 0) {
-                    priceMin.value = value;
-                    priceDisplayMin.textContent = value.toLocaleString();
-                } else {
-                    // When at maximum, set a special value (-1) to indicate "no upper limit"
-                    if (value >= 250000000) {
-                        priceMax.value = -1; // Special value to indicate no upper limit
-                        priceDisplayMax.textContent = "250,000,000+";
-                    } else {
-                        priceMax.value = value;
-                        priceDisplayMax.textContent = value.toLocaleString();
-                    }
-                }
-            });
-            
-            // Update display text immediately to match initial values
-            priceDisplayMin.textContent = initialPriceMin.toLocaleString();
-            if (initialPriceMax >= 250000000) {
-                priceDisplayMax.textContent = "250,000,000+";
-            } else {
-                priceDisplayMax.textContent = initialPriceMax.toLocaleString();
-            }
-        } else {
-            console.error("Price slider element not found or noUiSlider not loaded");
-        }
-        
-        // Size Slider
-        const sizeSlider = document.getElementById('size-slider');
-        const sizeMin = document.getElementById('squaremeters_min');
-        const sizeMax = document.getElementById('squaremeters_max');
-        const sizeDisplayMin = document.getElementById('sizeDisplayMin');
-        const sizeDisplayMax = document.getElementById('sizeDisplayMax');
-        
-        // Set initial values from form inputs or defaults
-        let initialSizeMin = sizeMin.value ? parseInt(sizeMin.value) : 0;
-        
-        // For max size, check for special -1 value (no upper limit)
-        let initialSizeMax;
-        if (sizeMax.value == -1) {
-            initialSizeMax = 1000; // Set slider to max, even though filter has no limit
-        } else {
-            initialSizeMax = sizeMax.value ? parseInt(sizeMax.value) : 1000;
-        }
-        
-        // Create the size slider
-        if (sizeSlider && typeof noUiSlider !== 'undefined') {
-            // Destroy existing slider if it exists
-            if (sizeSlider.noUiSlider) {
-                sizeSlider.noUiSlider.destroy();
-            }
-            
-            noUiSlider.create(sizeSlider, {
-                start: [initialSizeMin, initialSizeMax],
-                connect: true,
-                step: 1,
-                range: {
-                    'min': 0,
-                    'max': 600
-                }
-            });
-            
-            // Update values on slide
-            sizeSlider.noUiSlider.on('update', function(values, handle) {
-                const value = parseInt(values[handle]);
-                
-                if (handle === 0) {
-                    sizeMin.value = value;
-                    sizeDisplayMin.textContent = value.toLocaleString();
-                } else {
-                    // When at maximum, set a special value (-1) to indicate "no upper limit"
-                    if (value >= 600) {
-                        sizeMax.value = -1; // Special value to indicate no upper limit
-                        sizeDisplayMax.textContent = "600+";
-                    } else {
-                        sizeMax.value = value;
-                        sizeDisplayMax.textContent = value.toLocaleString();
-                    }
-                }
-            });
-            
-            // Update display text immediately to match initial values
-            sizeDisplayMin.textContent = initialSizeMin.toLocaleString();
-            if (initialSizeMax >= 600) {
-                sizeDisplayMax.textContent = "600+";
-            } else {
-                sizeDisplayMax.textContent = initialSizeMax.toLocaleString();
-            }
-        } else {
-            console.error("Size slider element not found or noUiSlider not loaded");
-        }
-    });
-    </script>
+<!--javascript fyrir slidera og fleira-->
     
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Make date inputs clickable
+    const dateInputs = document.querySelectorAll('.date-input');
+    
+    dateInputs.forEach(input => {
+        input.addEventListener('click', function() {
+            // Remove readonly to allow the date picker to open
+            this.readOnly = false;
+            // Focus and show the date picker
+            this.focus();
+            this.showPicker();
+            
+            // Add a blur event listener to set readonly back when focus is lost
+            this.addEventListener('blur', function() {
+                this.readOnly = true;
+            }, { once: true });
+        });
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Price Slider
+    const priceSlider = document.getElementById('price-slider');
+    const priceMin = document.getElementById('property_price_min');
+    const priceMax = document.getElementById('property_price_max');
+    const priceDisplayMin = document.getElementById('priceDisplayMin');
+    const priceDisplayMax = document.getElementById('priceDisplayMax');
+    
+    // Set initial values from form inputs or defaults
+    let initialPriceMin = priceMin.value ? parseInt(priceMin.value) : 0;
+    
+    // For max price, check for special -1 value (no upper limit)
+    let initialPriceMax;
+    if (priceMax.value == -1) {
+        initialPriceMax = 250000000; // Set slider to max, even though filter has no limit
+    } else {
+        initialPriceMax = priceMax.value ? parseInt(priceMax.value) : 250000000;
+    }
+    
+    // Create the price slider
+    if (priceSlider && typeof noUiSlider !== 'undefined') {
+        // Destroy existing slider if it exists
+        if (priceSlider.noUiSlider) {
+            priceSlider.noUiSlider.destroy();
+        }
+        
+        noUiSlider.create(priceSlider, {
+            start: [initialPriceMin, initialPriceMax],
+            connect: true,
+            step: 500000,
+            range: {
+                'min': 0,
+                'max': 250000000
+            }
+        });
+        
+        // Update values on slide
+        priceSlider.noUiSlider.on('update', function(values, handle) {
+            const value = parseInt(values[handle]);
+            
+            if (handle === 0) {
+                priceMin.value = value;
+                priceDisplayMin.textContent = value.toLocaleString();
+            } else {
+                // When at maximum, set a special value (-1) to indicate "no upper limit"
+                if (value >= 250000000) {
+                    priceMax.value = -1; // Special value to indicate no upper limit
+                    priceDisplayMax.textContent = "250,000,000+";
+                } else {
+                    priceMax.value = value;
+                    priceDisplayMax.textContent = value.toLocaleString();
+                }
+            }
+        });
+        
+        // Update display text immediately to match initial values
+        priceDisplayMin.textContent = initialPriceMin.toLocaleString();
+        if (initialPriceMax >= 250000000) {
+            priceDisplayMax.textContent = "250,000,000+";
+        } else {
+            priceDisplayMax.textContent = initialPriceMax.toLocaleString();
+        }
+    } else {
+        console.error("Price slider element not found or noUiSlider not loaded");
+    }
+    
+    // Size Slider
+    const sizeSlider = document.getElementById('size-slider');
+    const sizeMin = document.getElementById('squaremeters_min');
+    const sizeMax = document.getElementById('squaremeters_max');
+    const sizeDisplayMin = document.getElementById('sizeDisplayMin');
+    const sizeDisplayMax = document.getElementById('sizeDisplayMax');
+    
+    // Set initial values from form inputs or defaults
+    let initialSizeMin = sizeMin.value ? parseInt(sizeMin.value) : 0;
+    
+    // For max size, check for special -1 value (no upper limit)
+    let initialSizeMax;
+    if (sizeMax.value == -1) {
+        initialSizeMax = 600; // Set slider to max, even though filter has no limit
+    } else {
+        initialSizeMax = sizeMax.value ? parseInt(sizeMax.value) : 600;
+    }
+    
+    // Create the size slider
+    if (sizeSlider && typeof noUiSlider !== 'undefined') {
+        // Destroy existing slider if it exists
+        if (sizeSlider.noUiSlider) {
+            sizeSlider.noUiSlider.destroy();
+        }
+        
+        noUiSlider.create(sizeSlider, {
+            start: [initialSizeMin, initialSizeMax],
+            connect: true,
+            step: 1,
+            range: {
+                'min': 0,
+                'max': 600
+            }
+        });
+        
+        // Update values on slide
+        sizeSlider.noUiSlider.on('update', function(values, handle) {
+            const value = parseInt(values[handle]);
+            
+            if (handle === 0) {
+                sizeMin.value = value;
+                sizeDisplayMin.textContent = value.toLocaleString();
+            } else {
+                // When at maximum, set a special value (-1) to indicate "no upper limit"
+                if (value >= 600) {
+                    sizeMax.value = -1; // Special value to indicate no upper limit
+                    sizeDisplayMax.textContent = "600+";
+                } else {
+                    sizeMax.value = value;
+                    sizeDisplayMax.textContent = value.toLocaleString();
+                }
+            }
+        });
+        
+        // Update display text immediately to match initial values
+        sizeDisplayMin.textContent = initialSizeMin.toLocaleString();
+        if (initialSizeMax >= 600) {
+            sizeDisplayMax.textContent = "600+";
+        } else {
+            sizeDisplayMax.textContent = initialSizeMax.toLocaleString();
+        }
+    } else {
+        console.error("Size slider element not found or noUiSlider not loaded");
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if any filter parameters are present in the URL
+    if (urlParams.toString()) {
+        // Scroll to just below the filter form
+        const filterContainer = document.querySelector('.filter-section');
+        
+        if (filterContainer) {
+            // Add a small delay to ensure everything is rendered
+            setTimeout(function() {
+                // Calculate the target position
+                const targetPosition = filterContainer.offsetTop + filterContainer.offsetHeight + 20;
+                
+                // Only scroll if we're above the target position
+                if (window.scrollY < targetPosition) {
+                    // Use scrollBy to scroll relative to current position
+                    window.scrollBy({
+                        top: targetPosition - window.scrollY, // Calculate distance to scroll
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300); // 300ms delay to ensure everything is loaded
+        }
+    }
+    
+});
+</script>
 {% endblock %}
