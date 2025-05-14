@@ -36,7 +36,12 @@
         <h4>Your Offer Summary</h4>
         <p><strong>Offer Price:</strong> {{ offer_price }} kr</p>
         <p><strong>Expires On:</strong> {{ expire_date }}</p>
-          <div class="btn btn-primary">Confirm purchase order</div>
+          <form method="post" action="{% url 'offers:my-offers' %}">
+              {% csrf_token %}
+              <input type="hidden" name="price" value="{{ offer_price }}">
+              <input type="hidden" name="expire_date" value="{{ expire_date }}">
+              <button type="submit" class="btn btn-primary">Confirm purchase order</button>
+          </form>
       </div>
 
     </div>
