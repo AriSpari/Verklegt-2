@@ -94,6 +94,10 @@ def finalize_offer(request, offer_id):
         property_obj.is_sold = True
         property_obj.save()
 
+        if offer.status_id == 2:
+            offer.status_id = 5
+            offer.save()
+
         # Redirect to home
         return redirect('property_index')
 
