@@ -21,7 +21,7 @@
                                 <strong>Price Offered:</strong> {{ offer.offer_price|intcomma }} kr<br>
                                 <strong>Expires:</strong> {{ offer.expire_date }}<br>
                                 <strong>Status:</strong> {{ offer.status }}<br>
-                                {% if offer.status.id == 2x°x %}
+                                {% if offer.status.id == 2 %}
                                 <a class="btn btn-primary" href="{% url 'offers:finalize-offer' offer_id=offer.offer_id %}">Proceed to payment form</a>
                                 {% endif %}
                             </p>
