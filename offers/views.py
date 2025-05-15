@@ -6,7 +6,7 @@ from django.utils import timezone
 from property.models import Property
 from .models import Offers
 from .forms import OfferForm
-
+from django.views.decorators.http import require_POST
 
 
 @login_required
@@ -86,9 +86,21 @@ def my_offers(request):
         'offers': offers,
         'properties': properties,
     })
-
+@login_required
 def finalize_offer(request, offer_id):
-    offer = get_object_or_404(Offers, offer_id=offer_id)
+    # Always fetch the offer (and ensure it belongs to you)
+    offer = get_object_or_404(Offers, pk=offer_id, buyer_id=request.user)
+    property_obj = offer.property_id  # the related Property
+
+    if request.method == 'POST':
+        # Mark the property as sold
+        property_obj.is_sold = True
+        property_obj.save()
+
+        # Redirect to home
+        return redirect('property_index')
+
+    # GET → render the same multi-step review form
     return render(request, 'offers/finalize_offer.html', {
-        'offer': offer,
+        'existing_offer': offer
     })
