@@ -18,10 +18,12 @@
             <div class="card shadow-sm">
                 <div class="card-body text-center">
                     <!-- Seller Avatar - Default to initial circle -->
-                    <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3"
-                         style="width: 150px; height: 150px; font-size: 60px;">
-                        {{ seller.username|slice:":1"|upper }}
-                    </div>
+                        <img
+                            src="{{ seller.profile_image }}"
+                            alt="Profile Picture"
+                            class="rounded-circle mb-3"
+                            width="150" height="150">
+
                     
                     <!-- Seller Info -->
                     <h3 class="card-title">{{ seller.username }}</h3>
