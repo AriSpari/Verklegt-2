@@ -8,6 +8,7 @@ from .models import Offers
 from .forms import OfferForm
 
 
+
 @login_required
 def make_offer(request, property_id):
     property_obj = get_object_or_404(Property, pk=property_id)
@@ -87,7 +88,7 @@ def my_offers(request):
     })
 
 def finalize_offer(request, offer_id):
-    offer = get_object_or_404(Offers, offer_id=offer_id)  # use offer_id, not id
+    offer = get_object_or_404(Offers, offer_id=offer_id)
     return render(request, 'offers/finalize_offer.html', {
         'offer': offer,
     })
