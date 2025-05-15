@@ -102,6 +102,8 @@
                         <option value="size_desc" {% if request.GET.sort_by == "size_desc" %}selected{% endif %}>Size (Large to Small)</option>
                         <option value="date_asc" {% if request.GET.sort_by == "date_asc" %}selected{% endif %}>Date (Oldest First)</option>
                         <option value="date_desc" {% if request.GET.sort_by == "date_desc" %}selected{% endif %}>Date (Newest First)</option>
+                        <option value="property_address_asc" {% if request.GET.sort_by == "property_address_asc" %}selected{% endif %}>Street Name (A-Ö)</option>
+                        <option value="property_address_desc" {% if request.GET.sort_by == "property_address_desc" %}selected{% endif %}>Street Name (Ö-A)</option>
                     </select>
                 </div>
             </div>
@@ -124,6 +126,14 @@
             <div class="col-md-4 mb-4">
                 <a href="{% url 'property-by-id' id=property.property_id %}" class="text-decoration-none text-reset">
                     <div class="card property-card {% if property.is_sold %}card-disabled{% endif %} h-100 position-relative">
+                        <div class="favorite-button position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                            {% if user.is_authenticated %}
+                                <button class="btn btn-sm favorite-toggle {% if property.id in user_favorites %}btn-danger{% else %}btn-outline-danger{% endif %}"
+                                        data-property-id="{{ property.pk }}">
+                                    <i class="fas fa-heart"></i>
+                                </button>
+                            {% endif %}
+                        </div> 
                         <img src="{{ property.image_cover }}" class="card-img-top" alt="Property image">
                         <div class="card-body">
                             <h5 class="card-address">{{ property.property_address }}</h5>
@@ -338,4 +348,76 @@ document.addEventListener('DOMContentLoaded', function() {
     
 });
 </script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get all favorite toggle buttons
+    const favoriteButtons = document.querySelectorAll('.favorite-toggle');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();  // Prevent clicking through to property detail
+            
+            const propertyId = this.dataset.propertyId;
+            
+            // Immediately toggle the UI for instant feedback
+            const wasFavorite = this.classList.contains('btn-danger');
+            if (wasFavorite) {
+                this.classList.remove('btn-danger');
+                this.classList.add('btn-outline-danger');
+            } else {
+                this.classList.remove('btn-outline-danger');
+                this.classList.add('btn-danger');
+            }
+            
+            // Send AJAX request to toggle favorite status
+            fetch(`/toggle-favorite/${propertyId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Server confirmed the change, nothing more to do
+                console.log("Server confirmed favorite status:", data.is_favorite);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Revert the UI change if there was an error
+                if (wasFavorite) {
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                } else {
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-outline-danger');
+                }
+            });
+        });
+    });
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+    </script>
 {% endblock %}
