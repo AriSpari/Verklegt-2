@@ -15,11 +15,13 @@
                             <p class="card-text">
                                 <strong>Offer ID:</strong> {{ offer.offer_id }}<br>
 {#                            náði ekki að nota gögn úr bæði 'offers' og 'properties' töflunum  #}
-                                <strong>property Address:</strong> {{ offer.properties.property_address }} <br>
+                                <strong>property Address:</strong> {{ offer.property_id.property_address }} <br>
+                                <strong>property Location:</strong> {{ offer.property_id.postalcode }}, {{ offer.property_id.city }} <br>
+                                <img src="{{ offer.property_id.image_cover }}">
                                 <strong>Price Offered:</strong> {{ offer.offer_price|intcomma }} kr<br>
                                 <strong>Expires:</strong> {{ offer.expire_date }}<br>
                                 <strong>Status:</strong> {{ offer.status }}<br>
-                                {% if offer.status.id == 1 %}
+                                {% if offer.status.id == 2x°x %}
                                 <a class="btn btn-primary" href="{% url 'offers:finalize-offer' offer_id=offer.offer_id %}">Proceed to payment form</a>
                                 {% endif %}
                             </p>
