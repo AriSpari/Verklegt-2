@@ -2,6 +2,7 @@ from django.db import models
 from User.models import User
 # Create your models here.
 
+
 class Property(models.Model):
     property_id = models.IntegerField()
     property_address = models.CharField(max_length=255)
@@ -23,3 +24,12 @@ class Property(models.Model):
 class PropertyImage(models.Model):
     image = models.CharField(max_length=4096)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey(Property, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'property')

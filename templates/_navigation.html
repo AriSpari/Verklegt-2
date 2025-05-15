@@ -4,59 +4,110 @@
      style="z-index: 1050; background-color: rgb(57, 134, 244) !important;
             opacity: 1 !important;
             backdrop-filter: none !important;">
-  <div class="container-fluid d-flex justify-content-between align-items-center w-100">
-
+  <div class="container-fluid position-relative">
+    
     <!-- Logo + Title -->
     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
       <img id="navbar-logo" src="{% static 'images/castle logo.png' %}" alt="Castle Logo">
       <h3 class="m-0 text-white" id="navbar-title">Castle Apartments</h3>
     </a>
-
-    <!-- Centered Search Form (absolute) -->
-    <form class="position-absolute start-50 translate-middle-x navbar-search-form" role="search" method="get" action="{% url 'property-list' %}">
-      <input class="form-control navbar-search-input" type="search" name="search" placeholder="Search properties..." aria-label="Search" value="{{ request.GET.search|default:'' }}">
+    
+    <!-- Hamburger menu for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Centered Search Form (absolute positioning with corrected vertical alignment) -->
+    <form class="d-none d-lg-block position-absolute start-50" 
+          style="width: 300px; top: 50%; transform: translate(-50%, -50%);"
+          role="search" method="get" action="{% url 'property-list' %}">
+      <input class="form-control navbar-search-input" type="search" name="search" 
+             placeholder="Search properties..." aria-label="Search" 
+             value="{{ request.GET.search|default:'' }}">
     </form>
-
-    <!-- Left-side links (Register/Login) -->
-    <ul class="navbar-nav d-flex align-items-center gap-2 mb-0">
-      {% if not user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{% url 'register' %}">Register</a>
+    
+    <!-- Navbar content that collapses on mobile -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      
+      <!-- Mobile-only search form (centered) -->
+      <form class="d-lg-none mx-auto mb-3 mt-3" style="width: 100%; max-width: 300px;"
+            role="search" method="get" action="{% url 'property-list' %}">
+        <input class="form-control" type="search" name="search" 
+               placeholder="Search properties..." aria-label="Search" 
+               value="{{ request.GET.search|default:'' }}">
+      </form>
+      
+      <!-- Navigation Links -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+        
+        {% if user.is_authenticated %}
+        <!-- Favorites -->
+        <li class="nav-item me-3">
+          <a class="nav-link text-white d-flex align-items-center" href="{% url 'my-favorites' %}" title="My Favorites">
+            <i class="fas fa-heart fa-lg"></i>
+            <span class="ms-2 d-lg-none">My Favorites</span>
+          </a>
         </li>
+        
+        <!-- My Listings -->
+        <li class="nav-item me-3">
+          <a class="nav-link text-white d-flex align-items-center" href="{% url 'my-listings' %}">
+            <i class="fas fa-home fa-lg"></i>
+            <span class="ms-2 d-lg-none">My Listings</span>
+          </a>
+        </li>
+        
+        <!-- My Offers -->
+        <li class="nav-item me-3">
+          <a class="nav-link text-white d-flex align-items-center" href="{% url 'offers:my-offers' %}">
+            <i class="fas fa-handshake fa-lg"></i>
+            <span class="ms-2 d-lg-none">My Offers</span>
+          </a>
+        </li>
+        
+        <!-- Profile Dropdown with Fixed Image Size -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center text-white" href="#" id="profileDropdown" 
+             role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div style="width: 36px; height: 36px; overflow: hidden; border-radius: 50%; border: 2px solid white; background-color: #f8f9fa;">
+              {% if user.profile_image %}
+                <img src="{{ user.profile_image.url }}" alt="Profile" 
+                    style="width: 100%; height: 100%; object-fit: cover;">
+              {% else %}
+                <img src="https://i.pinimg.com/236x/63/b4/42/63b44296cd692778cb00f836414e0ca7.jpg" alt="Profile" 
+                    style="width: 100%; height: 100%; object-fit: cover;">
+              {% endif %}
+            </div>
+            <span class="ms-2 d-none d-lg-inline">{{ user.username }}</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2" aria-labelledby="profileDropdown">
+            <li><a class="dropdown-item" href="{% url 'profile' %}">
+              <i class="fas fa-user me-2"></i>My Profile
+            </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form method="post" action="{% url 'logout' %}" class="d-inline w-100">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item">
+                  <i class="fas fa-sign-out-alt me-2"></i>Logout
+                </button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        
+        {% else %}
+        <!-- Login/Register for non-authenticated users -->
         <li class="nav-item">
           <a class="nav-link text-white" href="{% url 'login' %}">Login</a>
         </li>
-      {% endif %}
-    </ul>
-
-    <!-- Right-side Profile Dropdown -->
-    {% if user.is_authenticated %}
-    <ul class="navbar-nav d-flex align-items-center ms-3 mb-0" id="profile-icon">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle p-0" href="#" id="profileDropdown" role="button"
-           data-bs-toggle="dropdown" aria-expanded="false">
-            {% if user.profile_image %}
-          <img src="{{ user.profile_image.url }}" alt="Profile" class="profile-avatar">
-            {% else %}
-            <img
-        src="https://i.pinimg.com/236x/63/b4/42/63b44296cd692778cb00f836414e0ca7.jpg" alt="Profile" class="profile-avatar">
-            {% endif %}
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="profileDropdown" id="profile-icon-dropdown">
-          <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
-          <li><a class="dropdown-item" href="{% url 'my-listings' %}">My Listings</a></li>
-          <li><a class="dropdown-item" href="{% url 'offers:my-offers' %}">My Offers</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li>
-            <form method="post" action="{% url 'logout' %}" class="d-inline">
-              {% csrf_token %}
-              <button type="submit" class="dropdown-item">Logout</button>
-            </form>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    {% endif %}
-
+        <li class="nav-item">
+          <a class="nav-link text-white" href="{% url 'register' %}">Register</a>
+        </li>
+        {% endif %}
+        
+      </ul>
+    </div>
   </div>
 </nav>

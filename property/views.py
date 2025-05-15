@@ -2,6 +2,9 @@
 
 from lib2to3.fixes.fix_input import context
 from django.db.models import Q
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from .models import Favorite
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -44,10 +47,19 @@ def property_list(request):
             queryset = queryset.order_by('listing_date')
         elif sort_by == 'date_desc':
             queryset = queryset.order_by('-listing_date')
+        elif sort_by == 'property_address_asc':
+            queryset = queryset.order_by('property_address')
+        elif sort_by == 'property_address_desc':
+            queryset = queryset.order_by('-property_address')
+
+    user_favorites = []
+    if request.user.is_authenticated:
+        user_favorites = Favorite.objects.filter(user=request.user).values_list('property_id', flat=True)
 
     return render(request, 'properties/properties.html', {
         'properties': queryset,
         'filter': f,
+        'user_favorites': user_favorites,
     })
 
 # This function can be removed or redirected to property_detail
@@ -143,3 +155,42 @@ def property_detail(request, id):
         'button_text': button_text,
     }
     return render(request, 'properties/property_detail.html', context)
+
+
+#Favorite function
+@login_required
+def toggle_favorite(request, property_id):
+    try:
+        property_obj = get_object_or_404(Property, pk=property_id)
+        favorite, created = Favorite.objects.get_or_create(
+            user=request.user,
+            property=property_obj
+        )
+        # If it wasn't created, it already existed, so delete it
+        if not created:
+            favorite.delete()
+            is_favorite = False
+        else:
+            is_favorite = True
+        return JsonResponse({
+            'success': True,
+            'is_favorite': is_favorite
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=400)
+
+
+
+#My favorites page
+@login_required
+def my_favorites(request):
+    favorites = Favorite.objects.filter(user=request.user).select_related('property')
+    favorite_properties = [fav.property for fav in favorites]
+
+    return render(request, 'properties/favorites.html', {
+        'properties': favorite_properties,
+        'user_favorites': [prop.id for prop in favorite_properties]  # For highlighting in UI
+    })
