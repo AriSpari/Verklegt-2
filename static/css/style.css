@@ -381,3 +381,20 @@ main.flex-grow-1 {
 
 
 /*  Css fyrir confirm user interface búið  */
+
+
+/*css fyrir my offer page*/
+
+#my-offers-property-image{
+  max-width: 20em;
+  max-height: 20em;
+  border-style: solid;
+  border-color: black;
+  border-width: 2px;
+  border-radius: 8px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  box-shadow: 0 5px 5px rgb(36, 233, 245) !important;
+}
+
+/*css fyrir my offers page done*/
