@@ -79,12 +79,9 @@ def make_offer(request, property_id):
 @login_required
 def my_offers(request):
     offers = Offers.objects.filter(buyer_id=request.user)
-    property_ids = offers.values_list('property_id', flat=True)
-    properties = Property.objects.filter(id__in=property_ids)
 
     return render(request, 'offers/my_offers.html', {
         'offers': offers,
-        'properties': properties,
     })
 
 def finalize_offer(request, offer_id):
