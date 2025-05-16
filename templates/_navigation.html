@@ -50,13 +50,24 @@
           </a>
         </li>
         
-        <!-- My Listings -->
-        <li class="nav-item me-3">
-          <a class="nav-link text-white d-flex align-items-center" href="{% url 'my-listings' %}">
-            <i class="fas fa-home fa-lg"></i>
-            <span class="ms-2 d-lg-none">My Listings</span>
-          </a>
-        </li>
+        <!-- Conditional Seller Options -->
+        {% if user.is_seller %}
+          <!-- Create Property (only for sellers) -->
+          <li class="nav-item me-3">
+            <a class="nav-link text-white d-flex align-items-center" href="{% url 'create-property' %}" title="Create Listing">
+              <i class="fas fa-plus-circle fa-lg"></i>
+              <span class="ms-2 d-lg-none">Create Listing</span>
+            </a>
+          </li>
+          
+          <!-- My Listings -->
+          <li class="nav-item me-3">
+            <a class="nav-link text-white d-flex align-items-center" href="{% url 'my-listings' %}">
+              <i class="fas fa-home fa-lg"></i>
+              <span class="ms-2 d-lg-none">My Listings</span>
+            </a>
+          </li>
+        {% endif %}
         
         <!-- My Offers -->
         <li class="nav-item me-3">
@@ -84,6 +95,30 @@
           <ul class="dropdown-menu dropdown-menu-end shadow-sm mt-2" aria-labelledby="profileDropdown">
             <li><a class="dropdown-item" href="{% url 'profile' %}">
               <i class="fas fa-user me-2"></i>My Profile
+            </a></li>
+            
+            <!-- Seller Option in Dropdown -->
+            {% if not user.is_seller %}
+            <li><a class="dropdown-item" href="{% url 'become_seller' %}">
+              <i class="fas fa-user-tie me-2"></i>Become a Seller
+            </a></li>
+            {% endif %}
+            
+            <!-- Additional links for sellers -->
+            {% if user.is_seller %}
+            <li><a class="dropdown-item" href="{% url 'my-listings' %}">
+              <i class="fas fa-home me-2"></i>My Listings
+            </a></li>
+            <li><a class="dropdown-item" href="{% url 'create-property' %}">
+              <i class="fas fa-plus-circle me-2"></i>Create Listing
+            </a></li>
+            {% endif %}
+            
+            <li><a class="dropdown-item" href="{% url 'my-favorites' %}">
+              <i class="fas fa-heart me-2"></i>My Favorites
+            </a></li>
+            <li><a class="dropdown-item" href="{% url 'offers:my-offers' %}">
+              <i class="fas fa-handshake me-2"></i>My Offers
             </a></li>
             <li><hr class="dropdown-divider"></li>
             <li>

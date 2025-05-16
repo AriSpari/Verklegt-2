@@ -2,17 +2,22 @@
 
 from lib2to3.fixes.fix_input import context
 from django.db.models import Q
+from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Favorite
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import PropertyForm
+from datetime import date
+import random
 from offers.models import Offers
 from property.models import Property
 from offers.forms import OfferForm
 from property.filters import PropertyFilter
 from User.models import User
+from property.models import models
+
 
 def index(request):
     property_filter = PropertyFilter(request.GET, queryset=Property.objects.all())
@@ -64,7 +69,7 @@ def property_list(request):
 
 # This function can be removed or redirected to property_detail
 def get_property_by_id(request, id):
-    # Redirect to the main property_detail view to avoid duplication
+    property_obj = get_object_or_404(Property, property_id=id)
     return property_detail(request, id)
 
 def get_property_by_name(request, name):
@@ -74,6 +79,37 @@ def user_profile(request):
     properties = Property.objects.all()  # query all properties from database
     return render(request, "user/profile.html", {
         "properties": properties
+    })
+
+
+@login_required
+def create_property(request):
+    # Check if user is a seller
+    if not request.user.is_seller:
+        messages.error(request, "You need to register as a seller to list properties.")
+        return redirect('become_seller')
+
+    if request.method == 'POST':
+        form = PropertyForm(request.POST, request.FILES)
+        if form.is_valid():
+            property_obj = form.save(commit=False)
+            property_obj.seller_id = request.user
+            property_obj.is_sold = False
+            property_obj.listing_date = date.today()
+
+            max_id = Property.objects.all().aggregate(models.Max('property_id'))['property_id__max'] or 999
+            property_obj.property_id = max_id + 1
+
+            property_obj.property_valuation = property_obj.property_price
+
+            property_obj.save()
+            messages.success(request, "Property listed successfully!")
+            return redirect('my-listings')
+    else:
+        form = PropertyForm()
+
+    return render(request, 'properties/create_property.html', {
+        'form': form,
     })
 
 
@@ -123,7 +159,7 @@ def confirm_offer(request, id):
 
 
 def property_detail(request, id):
-    property_obj = get_object_or_404(Property, pk=id)
+    property_obj = get_object_or_404(Property, property_id=id)
 
     # Existing offer check
     existing_offer = None

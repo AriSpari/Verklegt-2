@@ -21,8 +21,36 @@
             {% endif %}
           <h3 class="card-title">{{ user.name }}</h3>
           <p class="text-muted">{{ user.username }}</p>
+          
+          {% if user.is_seller %}
+            <div class="badge bg-success mb-2">Seller Account</div>
+            {% if user.email %}<p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>{% endif %}
+            {% if user.phone_number %}<p class="mb-1"><strong>Phone:</strong> {{ user.phone_number }}</p>{% endif %}
+            {% if user.seller_bio %}<p class="mb-0 mt-2">{{ user.seller_bio }}</p>{% endif %}
+          {% else %}
+            <a href="{% url 'become_seller' %}" class="btn btn-outline-primary mb-2">Become a Seller</a>
+            <p class="text-muted small">Become a seller to list properties for sale</p>
+          {% endif %}
         </div>
       </div>
+
+      {% if user.is_seller %}
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Seller Options</h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a href="{% url 'my-listings' %}" class="btn btn-outline-primary">
+              <i class="fas fa-home me-2"></i>My Listings
+            </a>
+            <a href="{% url 'create-property' %}" class="btn btn-outline-success">
+              <i class="fas fa-plus-circle me-2"></i>Create New Listing
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endif %}
 
       <div class="card mb-4">
         <div class="card-header">
@@ -57,6 +85,32 @@
               {% endfor %}
             </div>
 
+            {% if user.is_seller %}
+            <div class="mb-3">
+              <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+              {{ form.email }}
+              {% for error in form.email.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+              {{ form.phone_number }}
+              {% for error in form.phone_number.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.seller_bio.id_for_label }}" class="form-label">About You</label>
+              {{ form.seller_bio }}
+              {% for error in form.seller_bio.errors %}
+                <div class="text-danger small">{{ error }}</div>
+              {% endfor %}
+            </div>
+            {% endif %}
+
             <button type="submit" class="btn btn-primary">Update Profile</button>
           </form>
         </div>
@@ -69,7 +123,7 @@
              onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
             Log Out
           </a>
-            </form>
+          </form>
       </div>
 
     </div>

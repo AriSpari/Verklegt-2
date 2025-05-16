@@ -36,6 +36,11 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=100)
     profile_image = models.ImageField(upload_to='')
 
+    email = models.EmailField(max_length=255, blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    is_seller = models.BooleanField(default=False)
+    seller_bio = models.TextField(blank=True, null=True)
+
     # These fields are required by Django's User model
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

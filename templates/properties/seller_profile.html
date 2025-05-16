@@ -17,13 +17,19 @@
         <div class="col-md-4 mb-4">
             <div class="card shadow-sm">
                 <div class="card-body text-center">
-                    <!-- Seller Avatar - Default to initial circle -->
+                    <!-- Seller Avatar -->
+                    {% if seller.profile_image %}
                         <img
-                            src="{{ seller.profile_image }}"
+                            src="{{ seller.profile_image.url }}"
                             alt="Profile Picture"
                             class="rounded-circle mb-3"
-                            width="150" height="150">
-
+                            width="150" height="150"
+                            style="object-fit: cover;">
+                    {% else %}
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 150px; height: 150px; font-size: 3rem;">
+                            {{ seller.username.0|upper }}
+                        </div>
+                    {% endif %}
                     
                     <!-- Seller Info -->
                     <h3 class="card-title">{{ seller.username }}</h3>
@@ -31,10 +37,41 @@
                         <p class="text-muted">{{ seller.name }}</p>
                     {% endif %}
                     
-                    <!-- Simple contact button without email functionality -->
-                    <button class="btn btn-primary mt-3 w-100" disabled>
-                        Contact {{ seller.username }}
-                    </button>
+                    {% if seller.is_seller %}
+                        <div class="badge bg-success mb-3">Verified Seller</div>
+                        
+                        <!-- Contact Information -->
+                        {% if seller.email %}
+                            <p class="mb-2">
+                                <i class="fas fa-envelope me-2"></i>
+                                <a href="mailto:{{ seller.email }}">{{ seller.email }}</a>
+                            </p>
+                        {% endif %}
+                        
+                        {% if seller.phone_number %}
+                            <p class="mb-2">
+                                <i class="fas fa-phone me-2"></i>
+                                <a href="tel:{{ seller.phone_number }}">{{ seller.phone_number }}</a>
+                            </p>
+                        {% endif %}
+                        
+                        <!-- Seller Bio -->
+                        {% if seller.seller_bio %}
+                            <div class="mt-4 mb-3">
+                                <h6 class="text-start mb-2">About {{ seller.name }}</h6>
+                                <p class="text-muted text-start small">{{ seller.seller_bio }}</p>
+                            </div>
+                        {% endif %}
+                        
+                        <!-- Contact Button -->
+                        <div class="mt-3">
+                            <a href="mailto:{{ seller.email }}" class="btn btn-primary w-100">
+                                <i class="fas fa-envelope me-2"></i> Contact Seller
+                            </a>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">This user has not registered as a seller.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -49,6 +86,14 @@
                     {% if not property.is_sold %}
                         <div class="col-md-6 mb-4">
                             <div class="card h-100 shadow-sm">
+                                <div class="favorite-button position-absolute" style="top: 10px; right: 10px; z-index: 10;">
+                                    {% if user.is_authenticated %}
+                                        <button class="btn btn-sm favorite-toggle {% if property.id in user_favorites %}btn-danger{% else %}btn-outline-danger{% endif %}"
+                                                data-property-id="{{ property.id }}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
                                 <img src="{{ property.image_cover }}" class="card-img-top" alt="{{ property.property_address }}" 
                                     style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
@@ -78,4 +123,77 @@
         </div>
     </div>
 </div>
+
+<!-- JavaScript for toggling favorites -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all favorite toggle buttons
+    const favoriteButtons = document.querySelectorAll('.favorite-toggle');
+    
+    favoriteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();  // Prevent clicking through to property detail
+            
+            const propertyId = this.dataset.propertyId;
+            
+            // Immediately toggle the UI for instant feedback
+            const wasFavorite = this.classList.contains('btn-danger');
+            if (wasFavorite) {
+                this.classList.remove('btn-danger');
+                this.classList.add('btn-outline-danger');
+            } else {
+                this.classList.remove('btn-outline-danger');
+                this.classList.add('btn-danger');
+            }
+            
+            // Send AJAX request to toggle favorite status
+            fetch(`/toggle-favorite/${propertyId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Server confirmed the change, nothing more to do
+                console.log("Server confirmed favorite status:", data.is_favorite);
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                // Revert the UI change if there was an error
+                if (wasFavorite) {
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                } else {
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-outline-danger');
+                }
+            });
+        });
+    });
+    
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
 {% endblock %}
