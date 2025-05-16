@@ -10,7 +10,6 @@ from django.views.decorators.http import require_POST
 from django_countries import countries
 
 
-
 @login_required
 def make_offer(request, property_id):
     property_obj = get_object_or_404(Property, pk=property_id)
@@ -25,28 +24,42 @@ def make_offer(request, property_id):
     button_text = "Update Offer" if existing_offer else "Submit Offer"
 
     if request.method == 'POST':
-        form = OfferForm(request.POST)
-        if form.is_valid():
-            if existing_offer:
-                # Debugging - Check the data being submitted
-                print(f"Existing offer found: {existing_offer.offer_id}")
+        # Check if coming from confirmation page
+        if 'offer_price' in request.POST and 'expire_date' in request.POST:
+            offer_price = request.POST.get('offer_price')
+            expire_date = request.POST.get('expire_date')
 
+            if existing_offer:
                 # Update existing offer
-                existing_offer.offer_price = form.cleaned_data['offer_price']
-                existing_offer.expire_date = form.cleaned_data['expire_date']
+                existing_offer.offer_price = offer_price
+                existing_offer.expire_date = expire_date
                 existing_offer.save()
-                messages.success(request, 'Your offer has been updated!')
+                messages.success(request, f'Your offer of {offer_price} kr has been successfully updated!')
             else:
                 # Create new offer
-                print("Creating new offer")
-                offer = form.save(commit=False)
-                offer.property_id = property_obj
-                offer.buyer_id = request.user
-                offer.save()
-                messages.success(request, 'Your offer has been submitted!')
+                new_offer = Offers(
+                    property_id=property_obj,
+                    buyer_id=request.user,
+                    offer_price=offer_price,
+                    expire_date=expire_date,
+                    status_id=1  # Assuming 1 is "Pending"
+                )
+                new_offer.save()
+                messages.success(request, f'Your offer of {offer_price} kr has been successfully submitted!')
 
             # Redirect to property details page
             return redirect('property-by-id', id=property_id)
+
+
+        # If coming from property detail page with form submission
+        form = OfferForm(request.POST)
+        if form.is_valid():
+            # Instead of immediately creating/updating the offer,
+            # redirect to the confirmation page
+            return redirect('confirm-offer', id=property_id,
+                            offer_price=form.cleaned_data['offer_price'],
+                            expire_date=form.cleaned_data['expire_date'])
+
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -68,11 +81,8 @@ def make_offer(request, property_id):
         'form': form,
         'offers': offers,
         'existing_offer': existing_offer,
-        'button_text': button_text,  # Explicitly pass button text
+        'button_text': button_text,
     }
-
-    # For debugging
-    print(f"make_offer view button_text: {button_text}")
 
     return render(request, 'properties/property_detail.html', context)
 

@@ -3,6 +3,12 @@
 {% load humanize %}
 
 {% block content %}
+    <div class="container mt-5 mb-5">
+    <div class="alert alert-info mb-4">
+      <h5 class="alert-heading">Please Review Your Offer</h5>
+      <p>You are about to offer <strong>{{ offer_price|intcomma }} kr</strong> for this property.</p>
+      <p class="mb-0">Please review the details before confirming.</p>
+    </div>
   <div class="container mt-5 mb-5">
     <div class="d-flex flex-wrap gap-4" id="confirm-offer-wrapper">
 
@@ -94,4 +100,5 @@
 
     </div>
   </div>
+    </div>
 {% endblock %}
