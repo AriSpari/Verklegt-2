@@ -5,11 +5,11 @@ from django.conf import settings
 
 class Property(models.Model):
     property_id = models.IntegerField()
-    property_address = models.CharField(max_length=255)
-    city = models.CharField(max_length=100)
+    property_address = models.CharField(max_length=4096)
+    city = models.CharField(max_length=4096)
     postalcode = models.IntegerField()
     property_price = models.DecimalField(max_digits=100, decimal_places=2)
-    property_type = models.CharField(max_length=100)
+    property_type = models.CharField(max_length=4096)
     description = models.TextField()
     roomcount = models.IntegerField()
     bedroomcount = models.IntegerField()
