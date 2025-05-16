@@ -50,6 +50,7 @@ def make_offer(request, property_id):
             # Redirect to property details page
             return redirect('property-by-id', id=property_id)
 
+
         # If coming from property detail page with form submission
         form = OfferForm(request.POST)
         if form.is_valid():
@@ -58,6 +59,7 @@ def make_offer(request, property_id):
             return redirect('confirm-offer', id=property_id,
                             offer_price=form.cleaned_data['offer_price'],
                             expire_date=form.cleaned_data['expire_date'])
+
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
