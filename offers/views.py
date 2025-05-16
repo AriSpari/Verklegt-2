@@ -46,7 +46,7 @@ def make_offer(request, property_id):
                 messages.success(request, 'Your offer has been submitted!')
 
             # Redirect to property details page
-            return redirect('property_detail', id=property_id)
+            return redirect('property-by-id', id=property_id)
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -77,6 +77,24 @@ def make_offer(request, property_id):
     return render(request, 'properties/property_detail.html', context)
 
 
+@login_required
+def accept_offer(request, offer_id):
+    # Get the offer
+    offer = get_object_or_404(Offers, pk=offer_id)
+    property_obj = offer.property_id
+
+    # Check if user is the seller of the property
+    if request.user != property_obj.seller_id:
+        messages.error(request, "You are not authorized to accept this offer.")
+        return redirect('property-by-id', id=property_obj.property_id)
+
+    # Update offer status to "Accepted"
+    offer.status_id = 2
+    offer.save()
+
+    messages.success(request, f"You have accepted the offer of {offer.offer_price} kr from {offer.buyer_id.username}.")
+
+    return redirect('property-by-id', id=property_obj.property_id)
 
 @login_required
 def my_offers(request):
@@ -85,21 +103,29 @@ def my_offers(request):
     return render(request, 'offers/my_offers.html', {
         'offers': offers,
     })
+
+
 @login_required
 def finalize_offer(request, offer_id):
     # Always fetch the offer (and ensure it belongs to you)
     offer = get_object_or_404(Offers, pk=offer_id, buyer_id=request.user)
     property_obj = offer.property_id  # the related Property
 
+    # Check if the offer status is "Accepted" (status_id 2)
+    if offer.status_id != 2:  # Update this ID based on your Status table
+        messages.error(request, "This offer has not been accepted by the seller yet.")
+        return redirect('offers:my-offers')
+
     if request.method == 'POST':
         # Mark the property as sold
         property_obj.is_sold = True
         property_obj.save()
 
-        if offer.status_id == 2:
-            offer.status_id = 5
-            offer.save()
+        # Update offer status to "Finalized" (status_id 5)
+        offer.status_id = 5  # Update this ID based on your Status table
+        offer.save()
 
+        messages.success(request, "Congratulations! Your purchase has been finalized.")
         # Redirect to home
         return redirect('property_index')
 
