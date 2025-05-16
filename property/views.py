@@ -146,15 +146,30 @@ def submit_purchase_offer(request, id):
         "property": property  # Pass the specific property to the template
     })
 
+
 def confirm_offer(request, id):
     property_obj = get_object_or_404(Property, pk=id)
+
+    # Get offer details from GET parameters
     offer_price = request.GET.get('offer_price')
     expire_date = request.GET.get('expire_date')
+
+    # Check if the user already has an existing offer
+    existing_offer = None
+    if request.user.is_authenticated:
+        existing_offer = Offers.objects.filter(
+            buyer_id=request.user,
+            property_id=property_obj
+        ).first()
+
+    # Set button text based on whether an offer exists
+    button_text = "Update Offer" if existing_offer else "Submit Offer"
 
     return render(request, "properties/confirm_offer.html", {
         "property": property_obj,
         "offer_price": offer_price,
-        "expire_date": expire_date
+        "expire_date": expire_date,
+        "button_text": button_text
     })
 
 
