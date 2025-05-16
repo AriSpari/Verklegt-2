@@ -11,7 +11,7 @@
                 <div class="col-md-4 mb-4">
                 <a href="{% url 'property-by-id' id=listing.property_id %}" class="text-decoration-none text-reset">
                     <div class="card property-card {% if listing.is_sold %}card-disabled{% endif %} h-100 position-relative">
-                        <img src="{{ listing.image_cover }}" class="card-img-top" alt="Property image">
+                        <img src="{{ listing.get_image_url }}" class="card-img-top" alt="Property image">
                         <div class="card-body">
                             <h5 class="card-address">{{ listing.property_address }}</h5>
                             <h3 class="card-city-and-post-code">{{ listing.postalcode }} {{ listing.city }}</h3>
