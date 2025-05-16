@@ -2,7 +2,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from property.models import Property
-
+from .forms import UserRegistrationForm, ProfileUpdateForm, SellerRegistrationForm
 
 
 
@@ -54,4 +54,24 @@ def my_listings(request):
     listings = Property.objects.filter(seller_id=request.user)
     return render(request, 'user/my_listings.html', {
         'listings': listings
+    })
+
+
+@login_required
+def become_seller(request):
+    if request.user.is_seller:
+        return redirect('profile')  # Already a seller, redirect to profile
+
+    if request.method == 'POST':
+        form = SellerRegistrationForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_seller = True
+            user.save()
+            return redirect('profile')
+    else:
+        form = SellerRegistrationForm(instance=request.user)
+
+    return render(request, 'User/become_seller.html', {
+        'form': form,
     })

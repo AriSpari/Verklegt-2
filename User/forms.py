@@ -41,6 +41,28 @@ class LoginForm(AuthenticationForm):
         })
     )
 
+
+class SellerRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['email', 'phone_number', 'seller_bio']
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Email address',
+            }),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Phone number',
+            }),
+            'seller_bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Tell potential buyers about yourself...',
+                'rows': 4,
+            }),
+        }
+
+
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = User
