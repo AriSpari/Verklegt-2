@@ -3,36 +3,43 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="mb-4">My Purchase Offers</h2>
-
-    {% if offers %}
-        <div class="row">
-            {% for offer in offers %}
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ offer.property.property_address }}</h5>
-                            <p class="card-text">
-                                <strong>Offer ID:</strong> {{ offer.offer_id }}<br>
-{#                            náði ekki að nota gögn úr bæði 'offers' og 'properties' töflunum  #}
-                                <strong>property Address:</strong> {{ offer.property_id.property_address }} <br>
-                                <strong>property Location:</strong> {{ offer.property_id.postalcode }}, {{ offer.property_id.city }} <br>
-                                <img id="my-offers-property-image" src="{{ offer.property_id.get_image_url }}"> <br>
-                                <strong>Listed Price:</strong> {{ offer.property_id.property_price|intcomma }} kr<br>
-                                <strong>Price Offered:</strong> {{ offer.offer_price|intcomma }} kr<br>
-                                <strong>Expires:</strong> {{ offer.expire_date }}<br>
-                                <strong>Status:</strong> {{ offer.status }}<br>
-                                {% if offer.status.id == 2 %}
-                                <a class="btn btn-primary" href="{% url 'offers:finalize-offer' offer_id=offer.offer_id %}">Proceed to payment form</a>
-                                {% endif %}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  <h2>My Offers</h2>
+  
+  {% if offers %}
+    <div class="row mt-4">
+      {% for offer in offers %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ offer.property_id.property_address }}</h5>
+              <p class="card-text">
+                <strong>Offer:</strong> {{ offer.offer_price|intcomma }} kr<br>
+                <strong>Date:</strong> {{ offer.create_date|date:"M d, Y" }}<br>
+                <strong>Expires:</strong> {{ offer.expire_date|date:"M d, Y" }}<br>
+                <strong>Status:</strong> 
+                <span class="badge {% if offer.status.status_name == 'Accepted' %}bg-success{% elif offer.status.status_name == 'Rejected' %}bg-danger{% else %}bg-secondary{% endif %}">
+                  {{ offer.status.status_name }}
+                </span>
+              </p>
+              
+              {% if offer.status.status_name == 'Accepted' %}
+                <a href="{% url 'offers:finalize-offer' offer.offer_id %}" class="btn btn-primary">Finalize Purchase</a>
+              {% endif %}
+              
+              <a href="{% url 'property-by-id' id=offer.property_id.property_id %}" class="btn btn-outline-secondary mt-2">View Property</a>
+            </div>
+          </div>
         </div>
-    {% else %}
-        <p class="text-muted">You haven't made any offers yet.</p>
-    {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info mt-4">
+      <p class="mb-0">You haven't made any offers yet.</p>
+    </div>
+  {% endif %}
+  
+  <div class="mt-4">
+    <a href="{% url 'property-list' %}" class="btn btn-primary">Browse Properties</a>
+  </div>
 </div>
 {% endblock %}
