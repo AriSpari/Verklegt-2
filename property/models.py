@@ -1,6 +1,6 @@
 from django.db import models
 from User.models import User
-# Create your models here.
+from django.conf import settings
 
 
 class Property(models.Model):
@@ -21,9 +21,36 @@ class Property(models.Model):
     seller_id = models.ForeignKey(User, on_delete=models.CASCADE)
     image_cover = models.CharField(max_length=4096)
 
+
+    def get_image_url(self):
+        """Return the appropriate image URL regardless of source"""
+        if self.image_cover.startswith('http'):
+            # External URL - use as is
+            return self.image_cover
+        else:
+            # Local file - prepend with MEDIA_URL if not already included
+            if settings.MEDIA_URL in self.image_cover:
+                return self.image_cover
+            else:
+                return f"{settings.MEDIA_URL}{self.image_cover}"
+
+
 class PropertyImage(models.Model):
     image = models.CharField(max_length=4096)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
+
+
+    def get_image_url(self):
+        """Return the appropriate image URL regardless of source"""
+        if self.image.startswith('http'):
+            # External URL - use as is
+            return self.image
+        else:
+            # Local file - prepend with MEDIA_URL if not already included
+            if settings.MEDIA_URL in self.image:
+                return self.image
+            else:
+                return f"{settings.MEDIA_URL}{self.image}"
 
 
 class Favorite(models.Model):

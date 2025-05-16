@@ -17,7 +17,7 @@
 {#                            náði ekki að nota gögn úr bæði 'offers' og 'properties' töflunum  #}
                                 <strong>property Address:</strong> {{ offer.property_id.property_address }} <br>
                                 <strong>property Location:</strong> {{ offer.property_id.postalcode }}, {{ offer.property_id.city }} <br>
-                                <img id="my-offers-property-image" src="{{ offer.property_id.image_cover }}"> <br>
+                                <img id="my-offers-property-image" src="{{ offer.property_id.get_image_url }}"> <br>
                                 <strong>Listed Price:</strong> {{ offer.property_id.property_price|intcomma }} kr<br>
                                 <strong>Price Offered:</strong> {{ offer.offer_price|intcomma }} kr<br>
                                 <strong>Expires:</strong> {{ offer.expire_date }}<br>

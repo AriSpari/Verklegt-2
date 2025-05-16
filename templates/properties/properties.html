@@ -134,7 +134,7 @@
                                 </button>
                             {% endif %}
                         </div> 
-                        <img src="{{ property.image_cover }}" class="card-img-top" alt="Property image">
+                        <img src="{{ property.get_image_url }}" class="card-img-top" alt="Property image">
                         <div class="card-body">
                             <h5 class="card-address">{{ property.property_address }}</h5>
                             <h3 class="card-city-and-post-code">{{ property.postalcode }} {{ property.city }}</h3>

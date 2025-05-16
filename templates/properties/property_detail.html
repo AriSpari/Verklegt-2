@@ -18,11 +18,11 @@
           <div class="carousel-inner">
             {% for img in property.propertyimage_set.all %}
               <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <img src="{{ img.image }}" class="d-block w-100" alt="Property image {{ forloop.counter }}">
+                <img src="{{ img.get_image_url }}" class="d-block w-100" alt="Property image {{ forloop.counter }}">
               </div>
             {% empty %}
               <div class="carousel-item active">
-                <img src="{{ property.image_cover }}" class="d-block w-100" alt="Property image">
+                <img src="{{ property.get_image_url }}" class="d-block w-100" alt="Property image">
               </div>
             {% endfor %}
           </div>
