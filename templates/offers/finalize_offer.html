@@ -24,13 +24,9 @@
           <label class="form-label">Country</label>
           <select class="form-select" name="country">
             <option value="">-- Select a country --</option>
-            <option>Afghanistan</option>
-            <option>Albania</option>
-            <option>Algeria</option>
-            <option>Andorra</option>
-            <option>Angola</option>
-            <!-- …etc… -->
-            <option>Zimbabwe</option>
+                  {% for code, name in countries %}
+                      <option value="{{ code }}">{{ name }}</option>
+                  {% endfor %}
           </select>
         </div>
         <div class="mb-3">
