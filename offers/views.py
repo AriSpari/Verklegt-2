@@ -7,6 +7,8 @@ from property.models import Property
 from .models import Offers
 from .forms import OfferForm
 from django.views.decorators.http import require_POST
+from django_countries import countries
+
 
 
 @login_required
@@ -103,5 +105,6 @@ def finalize_offer(request, offer_id):
 
     # GET → render the same multi-step review form
     return render(request, 'offers/finalize_offer.html', {
-        'existing_offer': offer
+        'existing_offer': offer,
+        'countries': countries  # Add countries to context
     })

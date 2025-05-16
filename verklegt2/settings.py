@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "offers.apps.OfferdataConfig",
     "django.contrib.humanize",
     'django_filters',
-
+    'django_countries'
 ]
 
 MIDDLEWARE = [
